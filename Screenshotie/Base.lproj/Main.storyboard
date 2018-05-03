@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="289" y="904"/>
         </scene>
-        <!--WelcomeVC-->
+        <!--Screenshotie-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="WelcomeVC" customModule="Screenshotie" customModuleProvider="target" sceneMemberID="viewController">
@@ -51,7 +51,7 @@
                                         <fontDescription key="fontDescription" name="Futura-MediumItalic" family="Futura" pointSize="20"/>
                                         <state key="normal" title="Photos"/>
                                         <connections>
-                                            <segue destination="uZI-5x-DBn" kind="show" id="I7m-8s-589"/>
+                                            <action selector="PhotosBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wcs-LT-V35"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -69,22 +69,197 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="PN5-A1-Ii1"/>
+                    <navigationItem key="navigationItem" title="Screenshotie" id="PN5-A1-Ii1"/>
+                    <connections>
+                        <segue destination="uZI-5x-DBn" kind="show" identifier="WelcomeVCtoBarEditorVC" id="j3R-vY-MLt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1076" y="133.5832083958021"/>
         </scene>
-        <!--Photo PickerVC-->
+        <!--Bar EditorVC-->
         <scene sceneID="L3i-O8-8WC">
             <objects>
-                <viewController id="uZI-5x-DBn" customClass="PhotoPickerVC" customModule="Screenshotie" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BarEditorVC" id="uZI-5x-DBn" customClass="BarEditorVC" customModule="Screenshotie" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="spu-Ip-BCS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bhk-Oo-fpn">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afy-e1-SoB">
+                                <rect key="frame" x="0.0" y="20" width="375" height="20"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfP-vX-beC">
+                                        <rect key="frame" x="161.5" y="2.5" width="52.5" height="16.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7O0-XB-EK4">
+                                        <rect key="frame" x="303.5" y="0.0" width="66.5" height="20"/>
+                                        <subviews>
+                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alarm" translatesAutoresizingMaskIntoConstraints="NO" id="ucg-C2-XeZ">
+                                                <rect key="frame" x="-15" y="0.0" width="15" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="15" id="gKg-9W-cdw"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bluetooth" translatesAutoresizingMaskIntoConstraints="NO" id="eeO-C9-FQu">
+                                                <rect key="frame" x="-15" y="0.0" width="15" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="15" id="d2d-X4-b08"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8tp-Ds-QMP">
+                                                <rect key="frame" x="0.0" y="0.0" width="37.5" height="20"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="battery full" translatesAutoresizingMaskIntoConstraints="NO" id="7x6-a0-Bja">
+                                                <rect key="frame" x="37.5" y="0.0" width="29" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="29" id="CTh-5Y-6h8"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="charging" translatesAutoresizingMaskIntoConstraints="NO" id="PWm-L4-kwI">
+                                                <rect key="frame" x="66.5" y="0.0" width="15" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="15" id="wJv-zi-UCy"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cfi-Rf-kHK">
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="20"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="signal half" translatesAutoresizingMaskIntoConstraints="NO" id="CU4-E8-dxk">
+                                                <rect key="frame" x="0.0" y="0.0" width="25" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="y6C-g6-giv"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="carrier AT&amp;T" translatesAutoresizingMaskIntoConstraints="NO" id="FkM-EF-HGn">
+                                                <rect key="frame" x="25" y="0.0" width="30" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="9qb-lH-LFL"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wifi full" translatesAutoresizingMaskIntoConstraints="NO" id="JGc-SC-1Wq">
+                                                <rect key="frame" x="55" y="0.0" width="20" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="20" id="294-Bq-yX5"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.95686274509803915" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="2LP-ME-tLw"/>
+                                    <constraint firstAttribute="trailing" secondItem="7O0-XB-EK4" secondAttribute="trailing" constant="5" id="86V-k6-M3P"/>
+                                    <constraint firstItem="cfi-Rf-kHK" firstAttribute="leading" secondItem="afy-e1-SoB" secondAttribute="leading" id="Nus-W1-dNd"/>
+                                    <constraint firstItem="bfP-vX-beC" firstAttribute="centerX" secondItem="afy-e1-SoB" secondAttribute="centerX" id="Xjb-QW-J6y"/>
+                                    <constraint firstAttribute="bottom" secondItem="cfi-Rf-kHK" secondAttribute="bottom" id="jwv-3E-i6i"/>
+                                    <constraint firstItem="cfi-Rf-kHK" firstAttribute="top" secondItem="afy-e1-SoB" secondAttribute="top" id="qA3-aR-lQD"/>
+                                    <constraint firstItem="bfP-vX-beC" firstAttribute="centerY" secondItem="afy-e1-SoB" secondAttribute="centerY" id="sSX-vD-kHY"/>
+                                    <constraint firstAttribute="bottom" secondItem="7O0-XB-EK4" secondAttribute="bottom" id="xU5-Vw-lB8"/>
+                                    <constraint firstItem="7O0-XB-EK4" firstAttribute="top" secondItem="afy-e1-SoB" secondAttribute="top" id="xmd-8k-Kuy"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Zcp-kR-ILT">
+                                <rect key="frame" x="309" y="597" width="50" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="Ob8-HK-6KO"/>
+                                    <constraint firstAttribute="height" constant="50" id="Wpb-52-v62"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
+                                <state key="normal" title="Tool Box">
+                                    <color key="titleColor" red="0.96078431369999995" green="0.95686274510000002" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="toolBoxBtnAction:" destination="uZI-5x-DBn" eventType="touchUpInside" id="RNc-1M-L7t"/>
+                                </connections>
+                            </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SpO-58-6Ug">
+                                <rect key="frame" x="200" y="450" width="159" height="139"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tkd-EG-ocI">
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="139"/>
+                                        <subviews>
+                                            <segmentedControl opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="3" translatesAutoresizingMaskIntoConstraints="NO" id="IXp-a0-pYZ">
+                                                <rect key="frame" x="47" y="0.0" width="112" height="29"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="28" id="pvW-Dp-wop"/>
+                                                </constraints>
+                                                <segments>
+                                                    <segment title="A"/>
+                                                    <segment title="B"/>
+                                                    <segment title="C"/>
+                                                    <segment title="OFF"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="statusIconToggled:" destination="uZI-5x-DBn" eventType="valueChanged" id="Dg4-BV-lPE"/>
+                                                </connections>
+                                            </segmentedControl>
+                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="mZh-2j-IqW">
+                                                <rect key="frame" x="0.0" y="33" width="159" height="106"/>
+                                                <date key="date" timeIntervalSinceReferenceDate="547004143.72063005">
+                                                    <!--2018-05-03 01:35:43 +0000-->
+                                                </date>
+                                                <connections>
+                                                    <action selector="timePickerChanged:" destination="uZI-5x-DBn" eventType="valueChanged" id="nvB-fN-yuG"/>
+                                                </connections>
+                                            </datePicker>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Tkd-EG-ocI" firstAttribute="leading" secondItem="SpO-58-6Ug" secondAttribute="leading" id="Y2C-8F-xwS"/>
+                                    <constraint firstAttribute="trailing" secondItem="Tkd-EG-ocI" secondAttribute="trailing" id="dAf-5J-sAa"/>
+                                    <constraint firstItem="Tkd-EG-ocI" firstAttribute="top" secondItem="SpO-58-6Ug" secondAttribute="top" id="e6x-0g-eTW"/>
+                                    <constraint firstAttribute="bottom" secondItem="Tkd-EG-ocI" secondAttribute="bottom" id="qqc-KZ-zIC"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="SpO-58-6Ug" firstAttribute="top" secondItem="afy-e1-SoB" secondAttribute="bottom" constant="410" id="7t6-ub-UYr"/>
+                            <constraint firstItem="Bhk-Oo-fpn" firstAttribute="top" secondItem="U8D-eG-BBe" secondAttribute="top" id="9qn-tZ-lPM"/>
+                            <constraint firstItem="U8D-eG-BBe" firstAttribute="bottom" secondItem="Bhk-Oo-fpn" secondAttribute="bottom" id="JTz-yu-2wb"/>
+                            <constraint firstItem="afy-e1-SoB" firstAttribute="leading" secondItem="Bhk-Oo-fpn" secondAttribute="leading" id="Pas-QV-PPE"/>
+                            <constraint firstItem="Zcp-kR-ILT" firstAttribute="top" secondItem="SpO-58-6Ug" secondAttribute="bottom" constant="8" id="Rdd-ow-6Cb"/>
+                            <constraint firstItem="U8D-eG-BBe" firstAttribute="trailing" secondItem="Zcp-kR-ILT" secondAttribute="trailing" constant="16" id="T81-zn-IUQ"/>
+                            <constraint firstItem="Bhk-Oo-fpn" firstAttribute="leading" secondItem="U8D-eG-BBe" secondAttribute="leading" id="W3g-D6-hgl"/>
+                            <constraint firstItem="U8D-eG-BBe" firstAttribute="trailing" secondItem="Bhk-Oo-fpn" secondAttribute="trailing" id="YF6-59-bWy"/>
+                            <constraint firstItem="afy-e1-SoB" firstAttribute="trailing" secondItem="Bhk-Oo-fpn" secondAttribute="trailing" id="avC-gu-O7z"/>
+                            <constraint firstItem="afy-e1-SoB" firstAttribute="top" secondItem="Bhk-Oo-fpn" secondAttribute="top" id="eia-Fj-MWd"/>
+                            <constraint firstItem="SpO-58-6Ug" firstAttribute="leading" secondItem="U8D-eG-BBe" secondAttribute="leading" constant="200" id="h1a-bX-aVK"/>
+                            <constraint firstItem="U8D-eG-BBe" firstAttribute="bottom" secondItem="Zcp-kR-ILT" secondAttribute="bottom" constant="20" id="qLA-n8-IUP"/>
+                            <constraint firstItem="SpO-58-6Ug" firstAttribute="trailing" secondItem="Zcp-kR-ILT" secondAttribute="trailing" id="rES-fK-lPn"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="U8D-eG-BBe"/>
                     </view>
+                    <connections>
+                        <outlet property="alarmImg" destination="ucg-C2-XeZ" id="Kye-cU-pBK"/>
+                        <outlet property="batteryImg" destination="7x6-a0-Bja" id="Ey6-Da-faj"/>
+                        <outlet property="bluetoothImg" destination="eeO-C9-FQu" id="77B-1q-IcS"/>
+                        <outlet property="carrierImg" destination="FkM-EF-HGn" id="f7b-ff-Jwg"/>
+                        <outlet property="chargingImg" destination="PWm-L4-kwI" id="gwQ-eY-ByO"/>
+                        <outlet property="iconToggle" destination="IXp-a0-pYZ" id="a2T-2t-LnP"/>
+                        <outlet property="imageView" destination="Bhk-Oo-fpn" id="fKO-gr-otZ"/>
+                        <outlet property="signalImg" destination="CU4-E8-dxk" id="pN2-81-x7D"/>
+                        <outlet property="statusBarView" destination="afy-e1-SoB" id="rYK-cp-e7S"/>
+                        <outlet property="timeLbl" destination="bfP-vX-beC" id="kCX-xX-ET6"/>
+                        <outlet property="timePicker" destination="mZh-2j-IqW" id="mGn-fw-wPk"/>
+                        <outlet property="toolsView" destination="SpO-58-6Ug" id="sGc-Jg-mvF"/>
+                        <outlet property="wifiImg" destination="JGc-SC-1Wq" id="unW-JG-vTi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5fT-Sh-guf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -93,11 +268,13 @@
         <!--Navigation Controller-->
         <scene sceneID="mgm-H8-97o">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="U4j-la-6vv" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="U4j-la-6vv" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EWM-bZ-pNW">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="EWM-bZ-pNW">
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -109,4 +286,13 @@
             <point key="canvasLocation" x="1076" y="-681"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="alarm" width="47" height="58"/>
+        <image name="battery full" width="29" height="18"/>
+        <image name="bluetooth" width="39" height="57"/>
+        <image name="carrier AT&amp;T" width="88" height="58"/>
+        <image name="charging" width="28" height="58"/>
+        <image name="signal half" width="52" height="58"/>
+        <image name="wifi full" width="51" height="58"/>
+    </resources>
 </document>
