@@ -78,10 +78,10 @@
             </objects>
             <point key="canvasLocation" x="1076" y="133.5832083958021"/>
         </scene>
-        <!--Bar EditorVC-->
+        <!--EditorVC-->
         <scene sceneID="L3i-O8-8WC">
             <objects>
-                <viewController storyboardIdentifier="BarEditorVC" id="uZI-5x-DBn" customClass="BarEditorVC" customModule="Screenshotie" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BarEditorVC" id="uZI-5x-DBn" customClass="EditorVC" customModule="Screenshotie" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="spu-Ip-BCS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -186,16 +186,21 @@
                                 </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SpO-58-6Ug">
-                                <rect key="frame" x="200" y="450" width="159" height="139"/>
+                                <rect key="frame" x="200" y="420" width="159" height="169"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tkd-EG-ocI">
-                                        <rect key="frame" x="0.0" y="0.0" width="159" height="139"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Tkd-EG-ocI">
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="169"/>
                                         <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PKZ-fl-g9P">
+                                                <rect key="frame" x="41.5" y="0.0" width="76" height="26"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="29"/>
+                                                <state key="normal" title="Share"/>
+                                                <connections>
+                                                    <action selector="shareBtnAction:" destination="uZI-5x-DBn" eventType="touchUpInside" id="LwN-bO-A8T"/>
+                                                </connections>
+                                            </button>
                                             <segmentedControl opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="3" translatesAutoresizingMaskIntoConstraints="NO" id="IXp-a0-pYZ">
-                                                <rect key="frame" x="47" y="0.0" width="112" height="29"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="28" id="pvW-Dp-wop"/>
-                                                </constraints>
+                                                <rect key="frame" x="23.5" y="31" width="112" height="34"/>
                                                 <segments>
                                                     <segment title="A"/>
                                                     <segment title="B"/>
@@ -207,7 +212,10 @@
                                                 </connections>
                                             </segmentedControl>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="mZh-2j-IqW">
-                                                <rect key="frame" x="0.0" y="33" width="159" height="106"/>
+                                                <rect key="frame" x="0.0" y="69" width="159" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="100" id="9Ew-yf-yPm"/>
+                                                </constraints>
                                                 <date key="date" timeIntervalSinceReferenceDate="547004143.72063005">
                                                     <!--2018-05-03 01:35:43 +0000-->
                                                 </date>
@@ -229,7 +237,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="SpO-58-6Ug" firstAttribute="top" secondItem="afy-e1-SoB" secondAttribute="bottom" constant="410" id="7t6-ub-UYr"/>
+                            <constraint firstItem="SpO-58-6Ug" firstAttribute="top" secondItem="afy-e1-SoB" secondAttribute="bottom" constant="380" id="7t6-ub-UYr"/>
                             <constraint firstItem="Bhk-Oo-fpn" firstAttribute="top" secondItem="U8D-eG-BBe" secondAttribute="top" id="9qn-tZ-lPM"/>
                             <constraint firstItem="U8D-eG-BBe" firstAttribute="bottom" secondItem="Bhk-Oo-fpn" secondAttribute="bottom" id="JTz-yu-2wb"/>
                             <constraint firstItem="afy-e1-SoB" firstAttribute="leading" secondItem="Bhk-Oo-fpn" secondAttribute="leading" id="Pas-QV-PPE"/>
@@ -257,6 +265,7 @@
                         <outlet property="statusBarView" destination="afy-e1-SoB" id="rYK-cp-e7S"/>
                         <outlet property="timeLbl" destination="bfP-vX-beC" id="kCX-xX-ET6"/>
                         <outlet property="timePicker" destination="mZh-2j-IqW" id="mGn-fw-wPk"/>
+                        <outlet property="toolBoxBtn" destination="Zcp-kR-ILT" id="uug-cg-hc6"/>
                         <outlet property="toolsView" destination="SpO-58-6Ug" id="sGc-Jg-mvF"/>
                         <outlet property="wifiImg" destination="JGc-SC-1Wq" id="unW-JG-vTi"/>
                     </connections>

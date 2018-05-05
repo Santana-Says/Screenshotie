@@ -20,7 +20,7 @@ class WelcomeVC: UIViewController {
     }
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let vc = segue.destination as? BarEditorVC {
+		if let vc = segue.destination as? EditorVC {
 			vc.screenshot = screenshot
 		}
 	}

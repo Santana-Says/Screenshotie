@@ -8,7 +8,9 @@
 
 import UIKit
 
-class BarEditorVC: UIViewController {
+class EditorVC: UIViewController {
+	//MARK: - IBOutlets
+	
 	@IBOutlet weak var statusBarView: UIView!
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var signalImg: UIImageView!
@@ -20,11 +22,13 @@ class BarEditorVC: UIViewController {
 	@IBOutlet weak var bluetoothImg: UIImageView!
 	@IBOutlet weak var batteryImg: UIImageView!
 	@IBOutlet weak var chargingImg: UIImageView!
-	@IBOutlet weak var iconToggle: UISegmentedControl!
-	@IBOutlet weak var toolsView: UIView!
 	
+	@IBOutlet weak var toolBoxBtn: UIButton!
+	@IBOutlet weak var toolsView: UIView!
+	@IBOutlet weak var iconToggle: UISegmentedControl!
+	
+	private var isOpen = false
 	var screenshot: UIImage?
-	var isOpen = false
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,16 +40,23 @@ class BarEditorVC: UIViewController {
 	override var prefersStatusBarHidden: Bool {
 		return true
 	}
-
+	
+	//MARK: IBActions
+	
 	@IBAction func toolBoxBtnAction(_ sender: Any) {
-		if isOpen {
-			toolsView.isHidden = true
-			isOpen = false
-		} else {
-			toolsView.isHidden = false
-			isOpen = true
-		}
+		toggleToolbox()
 		
+	}
+	@IBAction func shareBtnAction(_ sender: Any) {
+		toggleToolbox()
+		toolBoxBtn.isHidden = true
+		
+		captureScreenshot()
+		if let image = screenshot {
+			let vc = UIActivityViewController(activityItems: [image], applicationActivities: [])
+			present(vc, animated: true)
+		}
+		toolBoxBtn.isHidden = false
 	}
 	
 	@IBAction func timePickerChanged(_ sender: UIDatePicker) {
@@ -71,5 +82,29 @@ class BarEditorVC: UIViewController {
 			bluetoothImg.isHidden = true
 			chargingImg.isHidden = true
 		}
+	}
+	
+	//MARK: Helper Functions
+	
+	private func toggleToolbox() {
+		if isOpen {
+			toolsView.isHidden = true
+			isOpen = false
+		} else {
+			toolsView.isHidden = false
+			isOpen = true
+		}
+	}
+	
+	private func captureScreenshot() {
+		
+		let layer = UIApplication.shared.keyWindow!.layer
+		let scale = UIScreen.main.scale
+		
+		// Creates UIImage of same size as view
+		UIGraphicsBeginImageContextWithOptions(layer.frame.size, false, scale);
+		layer.render(in: UIGraphicsGetCurrentContext()!)
+		screenshot = UIGraphicsGetImageFromCurrentImageContext()
+		UIGraphicsEndImageContext()
 	}
 }
