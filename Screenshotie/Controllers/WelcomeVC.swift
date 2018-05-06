@@ -8,15 +8,21 @@
 
 import UIKit
 import Photos
+import GoogleMobileAds
 
 class WelcomeVC: UIViewController {
 
+	@IBOutlet weak var bannerView: GADBannerView!
 	let photoController = UIImagePickerController()
 	var screenshot: UIImage?
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		checkPermission()
+//		bannerView.adUnitID = "ca-app-pub-8634347401168086/3974918236"	//live banner
+		bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"	//test banner
+		bannerView.rootViewController = self
+		bannerView.load(GADRequest())
     }
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -61,16 +61,27 @@
                                     <constraint firstAttribute="width" constant="250" id="xk3-lQ-3kf"/>
                                 </constraints>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Bu-wM-9yg" customClass="GADBannerView">
+                                <rect key="frame" x="27.5" y="597" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="ZPQ-dU-708"/>
+                                    <constraint firstAttribute="height" constant="50" id="l8d-sP-b3X"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.84705882349999995" green="0.2784313725" blue="0.1176470588" alpha="0.8536761558" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="8Bu-wM-9yg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="e2X-56-84p"/>
                             <constraint firstItem="fwT-Nm-8gg" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="imw-jA-ubo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="8Bu-wM-9yg" secondAttribute="bottom" constant="20" id="l5W-0C-XhN"/>
                             <constraint firstItem="fwT-Nm-8gg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zZa-MB-1jr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Screenshotie" id="PN5-A1-Ii1"/>
                     <connections>
+                        <outlet property="bannerView" destination="8Bu-wM-9yg" id="gy0-47-XgE"/>
                         <segue destination="uZI-5x-DBn" kind="show" identifier="WelcomeVCtoBarEditorVC" id="j3R-vY-MLt"/>
                     </connections>
                 </viewController>

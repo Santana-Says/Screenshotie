@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34F2657C40235240971353DC /* Pods_Screenshotie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82745A263C927A55BDE735F3 /* Pods_Screenshotie.framework */; };
 		B542002B2090171C004F39FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542002A2090171C004F39FD /* AppDelegate.swift */; };
 		B54200302090171C004F39FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B542002E2090171C004F39FD /* Main.storyboard */; };
 		B54200322090171D004F39FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B54200312090171D004F39FD /* Assets.xcassets */; };
@@ -15,9 +16,12 @@
 		B542004220901D6B004F39FD /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542004120901D6B004F39FD /* WelcomeVC.swift */; };
 		B542004420902A05004F39FD /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542004320902A05004F39FD /* CollectionViewCell.swift */; };
 		B54200472095392F004F39FD /* PhotoLibraryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54200462095392F004F39FD /* PhotoLibraryHandler.swift */; };
+		B5781D6F209F78AC002FCFF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6C95D62DAD67B84307775FF7 /* Pods-Screenshotie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Screenshotie.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie.debug.xcconfig"; sourceTree = "<group>"; };
+		82745A263C927A55BDE735F3 /* Pods_Screenshotie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Screenshotie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B54200272090171C004F39FD /* Screenshotie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Screenshotie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B542002A2090171C004F39FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B542002F2090171C004F39FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -28,6 +32,8 @@
 		B542004120901D6B004F39FD /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		B542004320902A05004F39FD /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		B54200462095392F004F39FD /* PhotoLibraryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryHandler.swift; sourceTree = "<group>"; };
+		B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BF6EDE80D41F78DA40FB49F5 /* Pods-Screenshotie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Screenshotie.release.xcconfig"; path = "Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +41,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34F2657C40235240971353DC /* Pods_Screenshotie.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B84EBCD8917152F6E9443B4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				82745A263C927A55BDE735F3 /* Pods_Screenshotie.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		471D533BA42D7A76694BF574 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6C95D62DAD67B84307775FF7 /* Pods-Screenshotie.debug.xcconfig */,
+				BF6EDE80D41F78DA40FB49F5 /* Pods-Screenshotie.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B542001E2090171C004F39FD = {
 			isa = PBXGroup;
 			children = (
 				B54200292090171C004F39FD /* Screenshotie */,
 				B54200282090171C004F39FD /* Products */,
+				471D533BA42D7A76694BF574 /* Pods */,
+				1B84EBCD8917152F6E9443B4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +95,7 @@
 				B54200312090171D004F39FD /* Assets.xcassets */,
 				B54200332090171D004F39FD /* LaunchScreen.storyboard */,
 				B54200362090171D004F39FD /* Info.plist */,
+				B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */,
 			);
 			path = Screenshotie;
 			sourceTree = "<group>";
@@ -112,9 +139,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B54200392090171D004F39FD /* Build configuration list for PBXNativeTarget "Screenshotie" */;
 			buildPhases = (
+				A5954B30F1614532CD4536CA /* [CP] Check Pods Manifest.lock */,
 				B54200232090171C004F39FD /* Sources */,
 				B54200242090171C004F39FD /* Frameworks */,
 				B54200252090171C004F39FD /* Resources */,
+				5B945120495D3B0CF85FE865 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,6 +192,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5781D6F209F78AC002FCFF6 /* GoogleService-Info.plist in Resources */,
 				B54200352090171D004F39FD /* LaunchScreen.storyboard in Resources */,
 				B54200322090171D004F39FD /* Assets.xcassets in Resources */,
 				B54200302090171C004F39FD /* Main.storyboard in Resources */,
@@ -170,6 +200,47 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5B945120495D3B0CF85FE865 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5954B30F1614532CD4536CA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Screenshotie-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B54200232090171C004F39FD /* Sources */ = {
@@ -322,6 +393,7 @@
 		};
 		B542003A2090171D004F39FD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C95D62DAD67B84307775FF7 /* Pods-Screenshotie.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -340,6 +412,7 @@
 		};
 		B542003B2090171D004F39FD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF6EDE80D41F78DA40FB49F5 /* Pods-Screenshotie.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
