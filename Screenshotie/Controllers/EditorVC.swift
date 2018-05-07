@@ -35,6 +35,7 @@ class EditorVC: UIViewController {
 
 		imageView.image = screenshot
 		timeLbl.text = DateFormatter.localizedString(from: timePicker.date, dateStyle: .none, timeStyle: .short)
+		roundCorners()
     }
 	
 	override var prefersStatusBarHidden: Bool {
@@ -106,5 +107,11 @@ class EditorVC: UIViewController {
 		layer.render(in: UIGraphicsGetCurrentContext()!)
 		screenshot = UIGraphicsGetImageFromCurrentImageContext()
 		UIGraphicsEndImageContext()
+	}
+	
+	private func roundCorners() {
+		toolsView.layer.cornerRadius = 10
+		toolBoxBtn.layer.cornerRadius = toolBoxBtn.frame.width / 2
+		toolsView.layer.masksToBounds = true
 	}
 }
