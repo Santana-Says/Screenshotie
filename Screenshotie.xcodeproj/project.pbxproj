@@ -14,9 +14,9 @@
 		B54200352090171D004F39FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54200332090171D004F39FD /* LaunchScreen.storyboard */; };
 		B542004020901D59004F39FD /* EditorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542003F20901D59004F39FD /* EditorVC.swift */; };
 		B542004220901D6B004F39FD /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542004120901D6B004F39FD /* WelcomeVC.swift */; };
-		B542004420902A05004F39FD /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542004320902A05004F39FD /* CollectionViewCell.swift */; };
 		B54200472095392F004F39FD /* PhotoLibraryHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54200462095392F004F39FD /* PhotoLibraryHandler.swift */; };
 		B5781D6F209F78AC002FCFF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */; };
+		B5781D71209FDD27002FCFF6 /* IconToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D70209FDD27002FCFF6 /* IconToggleCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,9 +30,9 @@
 		B54200362090171D004F39FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B542003F20901D59004F39FD /* EditorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorVC.swift; sourceTree = "<group>"; };
 		B542004120901D6B004F39FD /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
-		B542004320902A05004F39FD /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		B54200462095392F004F39FD /* PhotoLibraryHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryHandler.swift; sourceTree = "<group>"; };
 		B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B5781D70209FDD27002FCFF6 /* IconToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconToggleCell.swift; sourceTree = "<group>"; };
 		BF6EDE80D41F78DA40FB49F5 /* Pods-Screenshotie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Screenshotie.release.xcconfig"; path = "Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,7 +119,7 @@
 		B542003E20901D22004F39FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B542004320902A05004F39FD /* CollectionViewCell.swift */,
+				B5781D70209FDD27002FCFF6 /* IconToggleCell.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B542004420902A05004F39FD /* CollectionViewCell.swift in Sources */,
+				B5781D71209FDD27002FCFF6 /* IconToggleCell.swift in Sources */,
 				B54200472095392F004F39FD /* PhotoLibraryHandler.swift in Sources */,
 				B542004020901D59004F39FD /* EditorVC.swift in Sources */,
 				B542002B2090171C004F39FD /* AppDelegate.swift in Sources */,
