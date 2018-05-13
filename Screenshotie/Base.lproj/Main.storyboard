@@ -42,7 +42,7 @@
                                 <color key="backgroundColor" red="0.96078431369999995" green="0.95686274510000002" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Screenshot" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTA-K4-T5F">
-                                <rect key="frame" x="0.0" y="105" width="230" height="73"/>
+                                <rect key="frame" x="0.0" y="105" width="230" height="72"/>
                                 <fontDescription key="fontDescription" name="Noteworthy-Bold" family="Noteworthy" pointSize="45"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -50,13 +50,11 @@
                         </subviews>
                         <color key="backgroundColor" red="0.84705882349999995" green="0.2784313725" blue="0.1176470588" alpha="0.8536761558" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="8Bu-wM-9yg" firstAttribute="top" secondItem="TfU-gI-Vvy" secondAttribute="bottom" constant="161" id="3sL-sR-hHi"/>
                             <constraint firstItem="JTA-K4-T5F" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="85" id="Czq-hF-hfz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JTA-K4-T5F" secondAttribute="trailing" constant="184" id="D87-e8-Qst"/>
                             <constraint firstItem="jTt-20-umA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="EbV-9d-fSk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jTt-20-umA" secondAttribute="trailing" constant="8" id="Lt3-Dj-Ni2"/>
                             <constraint firstItem="8Bu-wM-9yg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="e2X-56-84p"/>
-                            <constraint firstItem="8Bu-wM-9yg" firstAttribute="top" secondItem="JTA-K4-T5F" secondAttribute="bottom" constant="488" id="ehf-uH-a5u"/>
                             <constraint firstItem="jTt-20-umA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="373" id="kao-vq-ETr"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="8Bu-wM-9yg" secondAttribute="bottom" constant="20" id="l5W-0C-XhN"/>
                             <constraint firstItem="TfU-gI-Vvy" firstAttribute="top" secondItem="jTt-20-umA" secondAttribute="bottom" constant="30" id="lJ5-An-rLf"/>
