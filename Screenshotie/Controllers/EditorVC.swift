@@ -32,6 +32,7 @@ class EditorVC: UIViewController {
 	
 	@IBOutlet weak var toolBoxBtn: UIButton!
 	@IBOutlet weak var toolsView: UIView!
+	@IBOutlet weak var backBtn: UIButton!
 	@IBOutlet weak var shareBtn: UIButton!
 	
 	private var isOpen = false
@@ -61,6 +62,11 @@ class EditorVC: UIViewController {
 		toggleToolbox()
 		
 	}
+	
+	@IBAction func backBtnAction(_ sender: Any) {
+		navigationController?.popViewController(animated: true)
+	}
+	
 	@IBAction func shareBtnAction(_ sender: Any) {
 		toggleToolbox()
 		toolBoxBtn.isHidden = true
@@ -126,8 +132,8 @@ class EditorVC: UIViewController {
 	
 	private func roundCorners() {
 		toolsView.layer.cornerRadius = 10
+		backBtn.layer.cornerRadius = toolsView.layer.cornerRadius
 		shareBtn.layer.cornerRadius = toolsView.layer.cornerRadius
-		shareBtn.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]	//focus on bottom radius
 		toolBoxBtn.layer.cornerRadius = toolBoxBtn.frame.width / 2
 	}
 	

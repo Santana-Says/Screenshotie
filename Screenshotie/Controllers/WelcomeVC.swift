@@ -11,6 +11,8 @@ import Photos
 import GoogleMobileAds
 
 class WelcomeVC: UIViewController {
+	
+	//MARK: - IBOutlets
 
 	@IBOutlet weak var bannerView: GADBannerView!
 	let photoController = UIImagePickerController()
@@ -33,6 +35,8 @@ class WelcomeVC: UIViewController {
 			vc.screenshot = screenshot
 		}
 	}
+	
+	//Mark: - IBActions
     
 	@IBAction func PhotosBtnPressed(_ sender: Any) {
 		photoLibrary()
