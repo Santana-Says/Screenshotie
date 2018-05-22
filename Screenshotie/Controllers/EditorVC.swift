@@ -20,6 +20,7 @@ class EditorVC: UIViewController {
 	@IBOutlet weak var wifiImg: UIImageView!
 	@IBOutlet weak var timeLbl: UILabel!
 	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var subCollectionView: UICollectionView!
 	@IBOutlet weak var timePicker: UIDatePicker!
 	@IBOutlet weak var doNotDisturbImg: UIImageView!
 	@IBOutlet weak var alarmImg: UIImageView!
@@ -38,7 +39,14 @@ class EditorVC: UIViewController {
 	private var isOpen = false
 	var screenshot: UIImage?
 	
-	let statusIconImages = ["airplaneMode", "signal 3:4", "carrier AT&T", "wifi full", "doNotDisturb", "screenLock", "location", "alarm", "bluetooth", "charging"]
+	private let statusIconImages = ["AirplaneMode", "Signal 4:4", "AT&T", "Wifi 3:3", "DoNotDisturb", "ScreenLock", "Location", "Alarm", "Bluetooth", "Battery 100%", "Charging"]
+	private let signalIconImages = [#imageLiteral(resourceName: "Signal 0:4"), #imageLiteral(resourceName: "Signal 1:4"),#imageLiteral(resourceName: "Signal 2:4"),#imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
+	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
+	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 0:3"), #imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
+	private let batteryIconImages = [#imageLiteral(resourceName: "Battery 10%"), #imageLiteral(resourceName: "Battery 50%"), #imageLiteral(resourceName: "Battery 100%")]
+	private let batterChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10%"), #imageLiteral(resourceName: "Battery Charging 50%"), #imageLiteral(resourceName: "Battery Charging 100%")]
+	private var currentSubIconImages: [UIImage]?
+	private var imgViewToEdit: UIImageView?
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,64 +165,121 @@ class EditorVC: UIViewController {
 			imgView.isHidden = true
 		}
 	}
+	
+	func showSubCollectionView(imgView: UIImageView, images: [UIImage]) {
+		imgViewToEdit = imgView
+		currentSubIconImages = images
+		subCollectionView.reloadData()
+		subCollectionView.isHidden = false
+	}
 }
 
-extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate, IconToggleCellDelegate {
+//MARK: - CollectionView Conforming
+
+extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 	
 	func collectionViewConfig() {
 		collectionView.delegate = self
+		subCollectionView.delegate = self
 		collectionView.dataSource = self
+		subCollectionView.dataSource = self
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return statusIconImages.count
+		if collectionView == self.collectionView {
+			return statusIconImages.count
+		} else if collectionView == subCollectionView {
+			guard let currentSubIconImages = currentSubIconImages else {return 0}
+			return currentSubIconImages.count
+		}
+		return 0
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconToggleCell", for: indexPath) as! IconToggleCell
-		cell.delegate = self
-		cell.cellConfig(img: UIImage(named: statusIconImages[indexPath.row])!)
-		cell.iconBtn.tag = indexPath.row
+		if collectionView == self.collectionView {
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconToggleCell", for: indexPath) as! IconToggleCell
+			cell.delegate = self
+			cell.cellConfig(img: UIImage(named: statusIconImages[indexPath.row])!)
+			cell.iconBtn.tag = indexPath.row
+			
+			cell.layer.cornerRadius = cell.frame.width / 2
+			cell.layer.masksToBounds = true
+			
+			return cell
+		} else if collectionView == subCollectionView {
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SubIconCell", for: indexPath) as! SubIconCell
+			cell.delegate = self
+			cell.cellConfig(img: currentSubIconImages![indexPath.row])
+			cell.subIconBtn.tag = indexPath.row
+			
+			cell.layer.cornerRadius = cell.frame.width / 2
+			cell.layer.masksToBounds = true
+			
+			return cell
+		}
 		
-		cell.layer.cornerRadius = cell.frame.width / 2
-		cell.layer.masksToBounds = true
-		
-		return cell
+		return UICollectionViewCell()
 	}
-	
+}
+
+//MARK: - IconToggleCellDelegate
+
+extension EditorVC: IconToggleCellDelegate {
 	func iconBtnAction(sender: UIButton) {
 		switch sender.tag {
-			case 0:
-				airplaneModeImg.isHidden = false
-				signalImg.isHidden = true
-				carrierImg.isHidden = true
-				wifiImg.isHidden = true
-			case 1:
-				airplaneModeImg.isHidden = true
-				toggleIcon(imgView: signalImg)
-			case 2:
-				airplaneModeImg.isHidden = true
-				toggleIcon(imgView: carrierImg)
-			case 3:
-				airplaneModeImg.isHidden = true
-				toggleIcon(imgView: wifiImg)
-			case 4:
-				toggleIcon(imgView: doNotDisturbImg)
-			case 5:
-				toggleIcon(imgView: screenLockImg)
-			case 6:
-				toggleIcon(imgView: locationImg)
-			case 7:
-				toggleIcon(imgView: alarmImg)
-			case 8:
-				toggleIcon(imgView: bluetoothImg)
-			case 9:
-				toggleIcon(imgView: chargingImg)
-				batteryImg.image = chargingImg.isHidden ? #imageLiteral(resourceName: "battery 3:4") : #imageLiteral(resourceName: "battery charging full")
-			default:
-				print("Empty icon toggled")
+		case 0:
+			airplaneModeImg.isHidden = false
+			signalImg.isHidden = true
+			carrierImg.isHidden = true
+		case 1:
+			airplaneModeImg.isHidden = true
+			toggleIcon(imgView: signalImg)
+			if !signalImg.isHidden {
+				showSubCollectionView(imgView: signalImg, images: signalIconImages)
+			}
+		case 2:
+			airplaneModeImg.isHidden = true
+			toggleIcon(imgView: carrierImg)
+			if !carrierImg.isHidden {
+				showSubCollectionView(imgView: carrierImg, images: carrierIconImages)
+			}
+		case 3:
+			toggleIcon(imgView: wifiImg)
+			if !wifiImg.isHidden {
+				showSubCollectionView(imgView: wifiImg, images: wifiIconImages)
+			}
+		case 4:
+			toggleIcon(imgView: doNotDisturbImg)
+		case 5:
+			toggleIcon(imgView: screenLockImg)
+		case 6:
+			toggleIcon(imgView: locationImg)
+		case 7:
+			toggleIcon(imgView: alarmImg)
+		case 8:
+			toggleIcon(imgView: bluetoothImg)
+		case 10:
+			toggleIcon(imgView: chargingImg)
+			fallthrough
+		case 9:
+			showSubCollectionView(imgView: batteryImg, images: chargingImg.isHidden ? batteryIconImages : batterChargingIconImages)
+		//TODO: - switch between regular/charging battery icons
+		default:
+			print("Empty icon toggled")
 		}
 	}
-	
-	
 }
+
+//MARK: - SubIconCellDelegate
+
+extension EditorVC: SubIconCellDelegate {
+	func subIconBtnAction(sender: UIButton) {
+		guard let imgViewToEdit = imgViewToEdit, let currentSubIconImages = currentSubIconImages else {return}
+		
+		subCollectionView.isHidden = true
+		imgViewToEdit.image = currentSubIconImages[sender.tag]
+	}
+}
+
+
+
