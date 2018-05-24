@@ -167,8 +167,16 @@ class EditorVC: UIViewController {
 	func toggleIcon(imgView: UIImageView) {
 		if imgView.isHidden {
 			imgView.isHidden = false
+			if imgView == airplaneModeImg {
+				signalImg.isHidden = true
+				carrierImg.isHidden = true
+			}
 		} else {
 			imgView.isHidden = true
+			if imgView == airplaneModeImg {
+				signalImg.isHidden = false
+				carrierImg.isHidden = false
+			}
 		}
 	}
 	
@@ -239,9 +247,7 @@ extension EditorVC: IconToggleCellDelegate {
 	func iconBtnAction(sender: UIButton) {
 		switch sender.tag {
 		case 0:
-			airplaneModeImg.isHidden = false
-			signalImg.isHidden = true
-			carrierImg.isHidden = true
+			toggleIcon(imgView: airplaneModeImg)
 		case 1:
 			airplaneModeImg.isHidden = true
 			toggleIcon(imgView: signalImg)
