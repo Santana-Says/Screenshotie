@@ -14,6 +14,7 @@ protocol SubIconCellDelegate: class {
 
 class SubIconCell: UICollectionViewCell {
 	
+	@IBOutlet weak var subIconImg: UIImageView!
 	@IBOutlet weak var subIconBtn: UIButton!
 	
 	weak var delegate: SubIconCellDelegate?
@@ -23,7 +24,7 @@ class SubIconCell: UICollectionViewCell {
 	}
 	
 	func cellConfig(img: UIImage) {
-		subIconBtn.setBackgroundImage(img, for: .normal)
+		subIconImg.image = img
 	}
 
 }

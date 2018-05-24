@@ -40,9 +40,9 @@ class EditorVC: UIViewController {
 	var screenshot: UIImage?
 	
 	private let statusIconImages = ["AirplaneMode", "Signal 4:4", "AT&T", "Wifi 3:3", "DoNotDisturb", "ScreenLock", "Location", "Alarm", "Bluetooth", "Battery 100%", "Charging"]
-	private let signalIconImages = [#imageLiteral(resourceName: "Signal 0:4"), #imageLiteral(resourceName: "Signal 1:4"),#imageLiteral(resourceName: "Signal 2:4"),#imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
+	private let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
 	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
-	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 0:3"), #imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
+	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
 	private let batteryIconImages = [#imageLiteral(resourceName: "Battery 10%"), #imageLiteral(resourceName: "Battery 50%"), #imageLiteral(resourceName: "Battery 100%")]
 	private let batterChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10%"), #imageLiteral(resourceName: "Battery Charging 50%"), #imageLiteral(resourceName: "Battery Charging 100%")]
 	private var currentSubIconImages: [UIImage]?
@@ -51,6 +51,7 @@ class EditorVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		subCollectionView.isHidden = true
 		imageView.image = screenshot
 		timeLbl.text = DateFormatter.localizedString(from: timePicker.date, dateStyle: .none, timeStyle: .short)
 		toolsView.alpha = 0
@@ -64,11 +65,10 @@ class EditorVC: UIViewController {
 		return true
 	}
 	
-	//MARK: IBActions
+	//MARK: - IBActions
 	
 	@IBAction func toolBoxBtnAction(_ sender: Any) {
 		toggleToolbox()
-		
 	}
 	
 	@IBAction func backBtnAction(_ sender: Any) {
@@ -81,8 +81,13 @@ class EditorVC: UIViewController {
 		
 		captureScreenshot()
 		if let image = screenshot {
-			let vc = UIActivityViewController(activityItems: [image], applicationActivities: [])
-			present(vc, animated: true)
+			let shareMenuVC = UIActivityViewController(activityItems: [image], applicationActivities: [])
+			shareMenuVC.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+				if completed {
+					self.backBtnAction(self)
+				}
+			}
+			present(shareMenuVC, animated: true)
 		}
 		toolBoxBtn.isHidden = false
 	}
@@ -97,7 +102,7 @@ class EditorVC: UIViewController {
 		timeLbl.text = strTime
 	}
 	
-	//MARK: Helper Functions
+	//MARK: - Helper Functions
 	
 	func hideNonEssentialIcons() {
 		airplaneModeImg.isHidden = true
@@ -106,6 +111,7 @@ class EditorVC: UIViewController {
 		locationImg.isHidden = true
 		alarmImg.isHidden = true
 		bluetoothImg.isHidden = true
+		batteryLbl.isHidden = true
 		chargingImg.isHidden = true
 	}
 	
@@ -169,6 +175,11 @@ class EditorVC: UIViewController {
 	func showSubCollectionView(imgView: UIImageView, images: [UIImage]) {
 		imgViewToEdit = imgView
 		currentSubIconImages = images
+		
+		let layout = subCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+		layout.minimumInteritemSpacing = CGFloat(100 / (currentSubIconImages?.count)!)
+		
+		subCollectionView.collectionViewLayout = layout
 		subCollectionView.reloadData()
 		subCollectionView.isHidden = false
 	}

@@ -14,6 +14,7 @@ protocol IconToggleCellDelegate: class {
 
 class IconToggleCell: UICollectionViewCell {
     
+	@IBOutlet weak var iconImg: UIImageView!
 	@IBOutlet weak var iconBtn: UIButton!
 	
 	weak var delegate: IconToggleCellDelegate?
@@ -23,6 +24,6 @@ class IconToggleCell: UICollectionViewCell {
 	}
 	
 	func cellConfig(img: UIImage) {
-		iconBtn.setBackgroundImage(img, for: .normal)
+		iconImg.image = img
 	}
 }
