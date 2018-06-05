@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34F2657C40235240971353DC /* Pods_Screenshotie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82745A263C927A55BDE735F3 /* Pods_Screenshotie.framework */; };
+		B520C80720B7B38D004183DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B520C80620B7B38D004183DF /* Constants.swift */; };
 		B542002B2090171C004F39FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542002A2090171C004F39FD /* AppDelegate.swift */; };
 		B54200302090171C004F39FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B542002E2090171C004F39FD /* Main.storyboard */; };
 		B54200322090171D004F39FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B54200312090171D004F39FD /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		6C95D62DAD67B84307775FF7 /* Pods-Screenshotie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Screenshotie.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie.debug.xcconfig"; sourceTree = "<group>"; };
 		82745A263C927A55BDE735F3 /* Pods_Screenshotie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Screenshotie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B520C80620B7B38D004183DF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B54200272090171C004F39FD /* Screenshotie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Screenshotie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B542002A2090171C004F39FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B542002F2090171C004F39FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				B54200462095392F004F39FD /* PhotoLibraryHandler.swift */,
+				B520C80620B7B38D004183DF /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				B54200242090171C004F39FD /* Frameworks */,
 				B54200252090171C004F39FD /* Resources */,
 				5B945120495D3B0CF85FE865 /* [CP] Embed Pods Frameworks */,
+				47FC25C18C309EB5BC00925A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -205,6 +209,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		47FC25C18C309EB5BC00925A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5B945120495D3B0CF85FE865 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -256,6 +275,7 @@
 				B542002B2090171C004F39FD /* AppDelegate.swift in Sources */,
 				B542004220901D6B004F39FD /* WelcomeVC.swift in Sources */,
 				B55B2D1920B3E7C0001285CF /* SubIconCell.swift in Sources */,
+				B520C80720B7B38D004183DF /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +424,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PD94K2S3RY;
 				INFOPLIST_FILE = Screenshotie/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -426,6 +447,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PD94K2S3RY;
 				INFOPLIST_FILE = Screenshotie/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

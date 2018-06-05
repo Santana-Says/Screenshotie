@@ -18,16 +18,10 @@ class WelcomeVC: UIViewController {
 	let photoController = UIImagePickerController()
 	var screenshot: UIImage?
 	
-    override func viewDidLoad() {
+	override func viewDidLoad() {
         super.viewDidLoad()
 		checkPermission()
-		let request = GADRequest()
-		request.testDevices = ["b5cb93d8dabd109b2e7e31197ebeb1d5","6723689deb3d914ffca3f87b8272d1f8"]  
-		bannerView.adUnitID = "ca-app-pub-8634347401168086/3974918236"	//live banner
-//		bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"	//test banner
-		bannerView.rootViewController = self
-		bannerView.delegate = self
-		bannerView.load(request)
+		configAdMob()
     }
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -40,6 +34,18 @@ class WelcomeVC: UIViewController {
     
 	@IBAction func PhotosBtnPressed(_ sender: Any) {
 		photoLibrary()
+	}
+	
+	//MARK: - Helper Funcs
+	
+	private func configAdMob() {
+		let request = GADRequest()
+		request.testDevices = GAD().testers
+		
+		bannerView.adUnitID = GAD().bannerAdId
+		bannerView.rootViewController = self
+		bannerView.delegate = self
+		bannerView.load(request)
 	}
 	
 }

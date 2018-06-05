@@ -13,12 +13,13 @@ class EditorVC: UIViewController {
 	//MARK: - IBOutlets
 	
 	@IBOutlet weak var statusBarView: UIView!
+	@IBOutlet weak var iPhoneXstatusBarView: UIView!
 	@IBOutlet weak var imageView: UIImageView!
-	@IBOutlet weak var airplaneModeImg: UIImageView!
-	@IBOutlet weak var signalImg: UIImageView!
+	@IBOutlet var airplaneModeImg: [UIImageView]!
+	@IBOutlet var signalImg: [UIImageView]!
 	@IBOutlet weak var carrierImg: UIImageView!
-	@IBOutlet weak var wifiImg: UIImageView!
-	@IBOutlet weak var timeLbl: UILabel!
+	@IBOutlet var wifiImg: [UIImageView]!
+	@IBOutlet var timeLbl: [UILabel]!
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var subCollectionView: UICollectionView!
 	@IBOutlet weak var timePicker: UIDatePicker!
@@ -28,7 +29,7 @@ class EditorVC: UIViewController {
 	@IBOutlet weak var locationImg: UIImageView!
 	@IBOutlet weak var bluetoothImg: UIImageView!
 	@IBOutlet weak var batteryLbl: UILabel!
-	@IBOutlet weak var batteryImg: UIImageView!
+	@IBOutlet var batteryImg: [UIImageView]!
 	@IBOutlet weak var chargingImg: UIImageView!
 	
 	@IBOutlet weak var toolBoxBtn: UIButton!
@@ -36,9 +37,22 @@ class EditorVC: UIViewController {
 	@IBOutlet weak var backBtn: UIButton!
 	@IBOutlet weak var shareBtn: UIButton!
 	
-	private var isOpen = false
+	private enum iphoneVersion: CGFloat {
+		//based off of root view height
+		case iphoneX = 812
+		case iphonePlus = 736
+		case iphone678 = 667
+		case iphoneSE = 568
+		
+		func tag() -> Int { return self == .iphoneX ? 1 : 0 }
+		
+		func isIPhoneX() -> Bool { return self == .iphoneX ? true : false }
+	}
+	
 	var screenshot: UIImage?
 	
+	private var iphone: iphoneVersion?
+	private var isToolBoxOpen = false
 	private let statusIconImages = ["AirplaneMode", "Signal 4:4", "AT&T", "Wifi 3:3", "DoNotDisturb", "ScreenLock", "Location", "Alarm", "Bluetooth", "Battery 100%", "Charging"]
 	private let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
 	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
@@ -51,9 +65,10 @@ class EditorVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		subCollectionView.isHidden = true
+		detectIphoneVersion()
+		hideNonEssentialIcons()
 		imageView.image = screenshot
-		timeLbl.text = DateFormatter.localizedString(from: timePicker.date, dateStyle: .none, timeStyle: .short)
+		setTime()
 		toolsView.alpha = 0
 		roundCorners()
 		shadowEffect()
@@ -93,19 +108,35 @@ class EditorVC: UIViewController {
 	}
 	
 	@IBAction func timePickerChanged(_ sender: UIDatePicker) {
-		let dateFormatter = DateFormatter()
-		
-		dateFormatter.dateStyle = .none
-		dateFormatter.timeStyle = .short
-		
-		let strTime = dateFormatter.string(from: timePicker.date)
-		timeLbl.text = strTime
+		setTime()
 	}
 	
 	//MARK: - Helper Functions
 	
-	func hideNonEssentialIcons() {
-		airplaneModeImg.isHidden = true
+	private func detectIphoneVersion() {
+		switch view.frame.height {
+		case iphoneVersion.iphoneX.rawValue:
+			iphone = .iphoneX
+		case iphoneVersion.iphonePlus.rawValue:
+			iphone = .iphonePlus
+		case iphoneVersion.iphone678.rawValue:
+			iphone = .iphone678
+		case iphoneVersion.iphoneSE.rawValue:
+			iphone = .iphoneSE
+		default:
+			iphone = nil
+		}
+	}
+	
+	private func hideNonEssentialIcons() {
+		guard let iphone = iphone else { return }
+		
+		if !iphone.isIPhoneX() {
+			iPhoneXstatusBarView.isHidden = true
+		} else {
+			statusBarView.isHidden = true
+		}
+		airplaneModeImg[iphone.tag()].isHidden = true
 		doNotDisturbImg.isHidden = true
 		screenLockImg.isHidden = true
 		locationImg.isHidden = true
@@ -113,18 +144,19 @@ class EditorVC: UIViewController {
 		bluetoothImg.isHidden = true
 		batteryLbl.isHidden = true
 		chargingImg.isHidden = true
+		subCollectionView.isHidden = true
 	}
 	
 	private func toggleToolbox() {
-		if isOpen {
-			isOpen = false
+		if isToolBoxOpen {
+			isToolBoxOpen = false
 			UIView.animate(withDuration: 0.5, animations: {
 				self.toolsView.alpha = 0
 			}) { (_) in
 				self.toolsView.isHidden = true
 			}
 		} else {
-			isOpen = true
+			isToolBoxOpen = true
 			UIView.animate(withDuration: 0.7) {
 				self.toolsView.isHidden = false
 				self.toolsView.alpha = 1
@@ -163,25 +195,39 @@ class EditorVC: UIViewController {
 		toolsView.layer.shadowRadius = 10
 	}
 	
-	//TODO: - turn this into an imageview extension
-	func toggleIcon(imgView: UIImageView) {
+	private func toggleIcon(imgView: UIImageView) {
+		guard let iphone = iphone else { return }
+		
 		if imgView.isHidden {
 			imgView.isHidden = false
-			if imgView == airplaneModeImg {
-				signalImg.isHidden = true
-				carrierImg.isHidden = true
+			if imgView == airplaneModeImg[iphone.tag()] {
+				signalImg[iphone.tag()].isHidden = true
+				if iphone.isIPhoneX() {
+					wifiImg[iphone.tag()].isHidden = true
+				} else {
+					carrierImg.isHidden = true
+				}
 			}
 		} else {
 			imgView.isHidden = true
-			if imgView == airplaneModeImg {
-				signalImg.isHidden = false
-				carrierImg.isHidden = false
+			if imgView == airplaneModeImg[iphone.tag()] {
+				signalImg[iphone.tag()].isHidden = false
+				if iphone.isIPhoneX() {
+					wifiImg[iphone.tag()].isHidden = false
+				} else {
+					carrierImg.isHidden = false
+				}
 			}
 		}
 	}
 	
-	func showSubCollectionView(imgView: UIImageView, images: [UIImage]) {
-		imgViewToEdit = imgView
+	private func setTime() {
+		guard let iphone = iphone else { return }
+		
+		timeLbl[iphone.tag()].text = DateFormatter.localizedString(from: timePicker.date, dateStyle: .none, timeStyle: iphone.isIPhoneX() ? .none : .short)
+	}
+	
+	private func showSubCollectionView(images: [UIImage]) {
 		currentSubIconImages = images
 		
 		let layout = subCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -245,25 +291,27 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 
 extension EditorVC: IconToggleCellDelegate {
 	func iconBtnAction(sender: UIButton) {
+		guard let iphone = iphone else { return }
+		
 		switch sender.tag {
 		case 0:
-			toggleIcon(imgView: airplaneModeImg)
+			toggleIcon(imgView: airplaneModeImg[iphone.tag()])
 		case 1:
-			airplaneModeImg.isHidden = true
-			toggleIcon(imgView: signalImg)
-			if !signalImg.isHidden {
-				showSubCollectionView(imgView: signalImg, images: signalIconImages)
+			airplaneModeImg[iphone.tag()].isHidden = true
+			toggleIcon(imgView: signalImg[iphone.tag()])
+			if !signalImg[iphone.tag()].isHidden {
+				showSubCollectionView(images: signalIconImages)
 			}
 		case 2:
-			airplaneModeImg.isHidden = true
+			airplaneModeImg[iphone.tag()].isHidden = true
 			toggleIcon(imgView: carrierImg)
 			if !carrierImg.isHidden {
-				showSubCollectionView(imgView: carrierImg, images: carrierIconImages)
+				showSubCollectionView(images: carrierIconImages)
 			}
 		case 3:
-			toggleIcon(imgView: wifiImg)
-			if !wifiImg.isHidden {
-				showSubCollectionView(imgView: wifiImg, images: wifiIconImages)
+			toggleIcon(imgView: wifiImg[iphone.tag()])
+			if !wifiImg[iphone.tag()].isHidden {
+				showSubCollectionView(images: wifiIconImages)
 			}
 		case 4:
 			toggleIcon(imgView: doNotDisturbImg)
@@ -279,7 +327,7 @@ extension EditorVC: IconToggleCellDelegate {
 			toggleIcon(imgView: chargingImg)
 			fallthrough
 		case 9:
-			showSubCollectionView(imgView: batteryImg, images: chargingImg.isHidden ? batteryIconImages : batterChargingIconImages)
+			showSubCollectionView(images: chargingImg.isHidden ? batteryIconImages : batterChargingIconImages)
 		//TODO: - switch between regular/charging battery icons
 		default:
 			print("Empty icon toggled")
