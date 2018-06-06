@@ -99,7 +99,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="cfi-Rf-kHK">
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="cfi-Rf-kHK" userLabel="Left Stack View">
                                                 <rect key="frame" x="2" y="4" width="92" height="12"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AirplaneMode" translatesAutoresizingMaskIntoConstraints="NO" id="CU4-E8-dxk">
@@ -128,7 +128,7 @@
                                                     </imageView>
                                                 </subviews>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="7O0-XB-EK4">
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="7O0-XB-EK4" userLabel="Right Stack View">
                                                 <rect key="frame" x="231" y="4" width="142" height="12"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="bsr-UL-i7t">
@@ -214,8 +214,8 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="ODq-2C-eic">
-                                                <rect key="frame" x="293" y="4" width="80" height="36"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="ODq-2C-eic">
+                                                <rect key="frame" x="276" y="4" width="85" height="36"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AirplaneMode" translatesAutoresizingMaskIntoConstraints="NO" id="V0w-Re-wf7">
                                                         <rect key="frame" x="0.0" y="0.0" width="20" height="36"/>
@@ -224,21 +224,21 @@
                                                         </constraints>
                                                     </imageView>
                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Signal 4:4" translatesAutoresizingMaskIntoConstraints="NO" id="6nl-pN-Vfs">
-                                                        <rect key="frame" x="21" y="0.0" width="15" height="36"/>
+                                                        <rect key="frame" x="23" y="0.0" width="15" height="36"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="15" id="gsn-dh-hvR"/>
                                                         </constraints>
                                                     </imageView>
                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Wifi 3:3" translatesAutoresizingMaskIntoConstraints="NO" id="CTE-Qd-x95">
-                                                        <rect key="frame" x="37" y="0.0" width="15" height="36"/>
+                                                        <rect key="frame" x="41" y="0.0" width="15" height="36"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="15" id="0V5-HG-SzD"/>
                                                         </constraints>
                                                     </imageView>
                                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Battery 100%" translatesAutoresizingMaskIntoConstraints="NO" id="rj7-dM-Ddn">
-                                                        <rect key="frame" x="53" y="0.0" width="27" height="36"/>
+                                                        <rect key="frame" x="59" y="0.0" width="26" height="36"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="27" id="Cee-Ja-nU1"/>
+                                                            <constraint firstAttribute="width" constant="26" id="Cee-Ja-nU1"/>
                                                         </constraints>
                                                     </imageView>
                                                 </subviews>
@@ -247,7 +247,7 @@
                                         <color key="backgroundColor" red="0.96078431369999995" green="0.95686274510000002" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="BqO-P6-xH9"/>
-                                            <constraint firstAttribute="trailing" secondItem="ODq-2C-eic" secondAttribute="trailing" constant="2" id="NXx-6L-OoY"/>
+                                            <constraint firstAttribute="trailing" secondItem="ODq-2C-eic" secondAttribute="trailing" constant="14" id="NXx-6L-OoY"/>
                                             <constraint firstItem="FuX-55-4db" firstAttribute="centerY" secondItem="LzC-42-PAL" secondAttribute="centerY" id="OVc-VX-VSq"/>
                                             <constraint firstItem="ODq-2C-eic" firstAttribute="top" secondItem="LzC-42-PAL" secondAttribute="top" constant="4" id="bGO-w8-wI2"/>
                                             <constraint firstItem="FuX-55-4db" firstAttribute="leading" secondItem="LzC-42-PAL" secondAttribute="leading" constant="32" id="wmQ-Gq-1Ut"/>
@@ -475,6 +475,8 @@
                         <outlet property="shareBtn" destination="xKK-rF-CD1" id="rjg-E5-YqY"/>
                         <outlet property="statusBarView" destination="afy-e1-SoB" id="rYK-cp-e7S"/>
                         <outlet property="subCollectionView" destination="EFc-Mu-5eP" id="Fww-aI-7wc"/>
+                        <outlet property="timeLbl" destination="bfP-vX-beC" id="Uip-Mo-SDx"/>
+                        <outlet property="timeLblX" destination="FuX-55-4db" id="8Ca-KC-RR4"/>
                         <outlet property="timePicker" destination="mZh-2j-IqW" id="mGn-fw-wPk"/>
                         <outlet property="toolBoxBtn" destination="Zcp-kR-ILT" id="uug-cg-hc6"/>
                         <outlet property="toolsView" destination="SpO-58-6Ug" id="sGc-Jg-mvF"/>

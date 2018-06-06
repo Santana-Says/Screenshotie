@@ -19,7 +19,8 @@ class EditorVC: UIViewController {
 	@IBOutlet var signalImg: [UIImageView]!
 	@IBOutlet weak var carrierImg: UIImageView!
 	@IBOutlet var wifiImg: [UIImageView]!
-	@IBOutlet var timeLbl: [UILabel]!
+	@IBOutlet weak var timeLbl: UILabel!
+	@IBOutlet weak var timeLblX: UILabel!
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var subCollectionView: UICollectionView!
 	@IBOutlet weak var timePicker: UIDatePicker!
@@ -44,9 +45,8 @@ class EditorVC: UIViewController {
 		case iphone678 = 667
 		case iphoneSE = 568
 		
-		func tag() -> Int { return self == .iphoneX ? 1 : 0 }
-		
 		func isIPhoneX() -> Bool { return self == .iphoneX ? true : false }
+		func tag() -> Int { return self == .iphoneX ? 1 : 0 }
 	}
 	
 	var screenshot: UIImage?
@@ -136,7 +136,7 @@ class EditorVC: UIViewController {
 		} else {
 			statusBarView.isHidden = true
 		}
-		airplaneModeImg[iphone.tag()].isHidden = true
+		imgViewFromCollection(collection: airplaneModeImg).isHidden = true
 		doNotDisturbImg.isHidden = true
 		screenLockImg.isHidden = true
 		locationImg.isHidden = true
@@ -195,25 +195,30 @@ class EditorVC: UIViewController {
 		toolsView.layer.shadowRadius = 10
 	}
 	
+	private func imgViewFromCollection(collection: [UIImageView]) -> UIImageView {
+		guard let iphone = iphone else { return UIImageView() }
+		return collection.filter{$0.tag == iphone.tag()}.first!
+	}
+	
 	private func toggleIcon(imgView: UIImageView) {
 		guard let iphone = iphone else { return }
 		
 		if imgView.isHidden {
 			imgView.isHidden = false
-			if imgView == airplaneModeImg[iphone.tag()] {
-				signalImg[iphone.tag()].isHidden = true
+			if imgView == imgViewFromCollection(collection: airplaneModeImg) {
+				imgViewFromCollection(collection: signalImg).isHidden = true
 				if iphone.isIPhoneX() {
-					wifiImg[iphone.tag()].isHidden = true
+					imgViewFromCollection(collection: wifiImg).isHidden = true
 				} else {
 					carrierImg.isHidden = true
 				}
 			}
 		} else {
 			imgView.isHidden = true
-			if imgView == airplaneModeImg[iphone.tag()] {
-				signalImg[iphone.tag()].isHidden = false
+			if imgView == imgViewFromCollection(collection: airplaneModeImg) {
+				imgViewFromCollection(collection: signalImg).isHidden = false
 				if iphone.isIPhoneX() {
-					wifiImg[iphone.tag()].isHidden = false
+					imgViewFromCollection(collection: wifiImg).isHidden = false
 				} else {
 					carrierImg.isHidden = false
 				}
@@ -221,13 +226,26 @@ class EditorVC: UIViewController {
 		}
 	}
 	
-	private func setTime() {
-		guard let iphone = iphone else { return }
+	private func cancelAirplaneMode() {
 		
-		timeLbl[iphone.tag()].text = DateFormatter.localizedString(from: timePicker.date, dateStyle: .none, timeStyle: iphone.isIPhoneX() ? .none : .short)
 	}
 	
-	private func showSubCollectionView(images: [UIImage]) {
+	private func setTime() {
+		guard let iphone = iphone else { return }
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = "h:mm"
+		let timeString = dateFormatter.string(from: timePicker.date)
+		//DateFormatter.localizedString(from: timePicker.date, dateStyle: .none, timeStyle: .short)
+		
+		if iphone.isIPhoneX() {
+			timeLblX.text = timeString
+		} else {
+			timeLbl.text = timeString
+		}
+	}
+	
+	private func showSubCollectionView(imgView: UIImageView, images: [UIImage]) {
+		imgViewToEdit = imgView
 		currentSubIconImages = images
 		
 		let layout = subCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
@@ -291,28 +309,21 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 
 extension EditorVC: IconToggleCellDelegate {
 	func iconBtnAction(sender: UIButton) {
-		guard let iphone = iphone else { return }
 		
 		switch sender.tag {
 		case 0:
-			toggleIcon(imgView: airplaneModeImg[iphone.tag()])
+			toggleIcon(imgView: imgViewFromCollection(collection: airplaneModeImg))
 		case 1:
-			airplaneModeImg[iphone.tag()].isHidden = true
-			toggleIcon(imgView: signalImg[iphone.tag()])
-			if !signalImg[iphone.tag()].isHidden {
-				showSubCollectionView(images: signalIconImages)
-			}
+			imgViewFromCollection(collection: airplaneModeImg).isHidden = true
+			imgViewFromCollection(collection: signalImg).isHidden = false
+				showSubCollectionView(imgView: imgViewFromCollection(collection: signalImg), images: signalIconImages)
 		case 2:
-			airplaneModeImg[iphone.tag()].isHidden = true
-			toggleIcon(imgView: carrierImg)
-			if !carrierImg.isHidden {
-				showSubCollectionView(images: carrierIconImages)
-			}
+			imgViewFromCollection(collection: airplaneModeImg).isHidden = true
+			carrierImg.isHidden = false
+				showSubCollectionView(imgView: carrierImg, images: carrierIconImages)
 		case 3:
-			toggleIcon(imgView: wifiImg[iphone.tag()])
-			if !wifiImg[iphone.tag()].isHidden {
-				showSubCollectionView(images: wifiIconImages)
-			}
+			imgViewFromCollection(collection: wifiImg).isHidden = false
+				showSubCollectionView(imgView: imgViewFromCollection(collection: wifiImg), images: wifiIconImages)
 		case 4:
 			toggleIcon(imgView: doNotDisturbImg)
 		case 5:
@@ -327,7 +338,7 @@ extension EditorVC: IconToggleCellDelegate {
 			toggleIcon(imgView: chargingImg)
 			fallthrough
 		case 9:
-			showSubCollectionView(images: chargingImg.isHidden ? batteryIconImages : batterChargingIconImages)
+			showSubCollectionView(imgView: imgViewFromCollection(collection: batteryImg), images: chargingImg.isHidden ? batteryIconImages : batterChargingIconImages)
 		//TODO: - switch between regular/charging battery icons
 		default:
 			print("Empty icon toggled")
