@@ -9,7 +9,7 @@
 import UIKit
 
 protocol IconToggleCellDelegate: class {
-	func iconBtnAction(sender: UIButton)
+	func iconBtnAction(sender: UIImageView)
 }
 
 class IconToggleCell: UICollectionViewCell {
@@ -20,7 +20,7 @@ class IconToggleCell: UICollectionViewCell {
 	weak var delegate: IconToggleCellDelegate?
 	
 	@IBAction func toggleIconAction(_ sender: UIButton) {
-		delegate?.iconBtnAction(sender: sender)
+		delegate?.iconBtnAction(sender: iconImg)
 	}
 	
 	func cellConfig(img: UIImage) {
