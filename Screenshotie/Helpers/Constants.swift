@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 struct GAD {
 	let APP_ID = "ca-app-pub-8634347401168086~2150700679"
@@ -18,9 +19,10 @@ struct GAD {
 	let TEST_INTERSTITIAL_AD_ID = "ca-app-pub-3940256099942544/4411468910"
 	
 	let TESTERS = [
+		kGADSimulatorID,
 		"b5cb93d8dabd109b2e7e31197ebeb1d5",	//Jeff Test
 		"6723689deb3d914ffca3f87b8272d1f8"	//Jeff Main
-	]
+	] as [Any]
 }
 
 let IPHONEX_COLLECTIONVIEW_SIZE: CGFloat = 110

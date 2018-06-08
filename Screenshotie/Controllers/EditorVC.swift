@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class EditorVC: UIViewController {
 	
@@ -60,14 +61,17 @@ class EditorVC: UIViewController {
 	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
 	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
 	private let batteryIconImages = [#imageLiteral(resourceName: "Battery 10%"), #imageLiteral(resourceName: "Battery 50%"), #imageLiteral(resourceName: "Battery 100%")]
-	private let batterChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10%"), #imageLiteral(resourceName: "Battery Charging 50%"), #imageLiteral(resourceName: "Battery Charging 100%")]
+	private let batteryChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10%"), #imageLiteral(resourceName: "Battery Charging 50%"), #imageLiteral(resourceName: "Battery Charging 100%")]
+	private let batteryChargingIconImagesX = [#imageLiteral(resourceName: "Battery X Charging 10%")]
 	private var currentSubIconImages = [UIImage]()
 	private var imgViewToEdit = UIImageView()
 	private var airplaneModeImgInUse = UIImageView()
 	private var signalImgInUse = UIImageView()
 	private var wifiImgInUse = UIImageView()
 	private var batteryImgInUse = UIImageView()
+	private var batteryChargingImgInUse = [UIImage]()
 	private var statusIconsInUse = [String]()
+	private var interstitial: GADInterstitial!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +80,7 @@ class EditorVC: UIViewController {
 		toolsView.alpha = 0
 		
 		detectIphoneVersion()
+		configAdMob()
 		variationsDependingOnVersion()
 		imgViewFromCollection()
 		hideNonEssentialIcons()
@@ -108,7 +113,12 @@ class EditorVC: UIViewController {
 			let shareMenuVC = UIActivityViewController(activityItems: [image], applicationActivities: [])
 			shareMenuVC.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
 				if completed {
-					self.backBtnAction(self)
+					if self.interstitial.isReady {
+						self.interstitial.present(fromRootViewController: self)
+					} else {
+						print("Ad wasn't ready")
+						self.backBtnAction(self)
+					}
 				}
 			}
 			present(shareMenuVC, animated: true)
@@ -144,9 +154,11 @@ class EditorVC: UIViewController {
 			statusIconsInUse = statusIconImagesX
 			statusBarView.isHidden = true
 			collectionViewHeight.constant = IPHONEX_COLLECTIONVIEW_SIZE
+			batteryChargingImgInUse = batteryChargingIconImagesX
 		} else {
 			statusIconsInUse = statusIconImages
 			iPhoneXstatusBarView.isHidden = true
+			batteryChargingImgInUse = batteryChargingIconImages
 		}
 	}
 	
@@ -268,6 +280,15 @@ class EditorVC: UIViewController {
 		subCollectionView.reloadData()
 		subCollectionView.isHidden = false
 	}
+	
+	private func configAdMob() {
+		let request = GADRequest()
+//		request.testDevices = GAD().TESTERS
+		
+		interstitial = GADInterstitial(adUnitID: GAD().INTERSTITIAL_AD_ID)
+		interstitial.delegate = self
+		interstitial.load(request)
+	}
 }
 
 //MARK: - CollectionView Conforming
@@ -358,7 +379,7 @@ extension EditorVC: IconToggleCellDelegate {
 			toggleIcon(imgView: chargingImg)
 			fallthrough
 		case #imageLiteral(resourceName: "Battery 100%"):
-			showSubCollectionView(imgView: batteryImgInUse, images: chargingImg.isHidden ? batteryIconImages : batterChargingIconImages)
+			showSubCollectionView(imgView: batteryImgInUse, images: chargingImg.isHidden ? batteryIconImages : batteryChargingImgInUse)
 		default:
 			print("Empty icon toggled")
 		}
@@ -373,3 +394,41 @@ extension EditorVC: SubIconCellDelegate {
 		imgViewToEdit.image = currentSubIconImages[sender.tag]
 	}
 }
+
+//MARK: - GADDelegate
+
+extension EditorVC: GADInterstitialDelegate {
+	/// Tells the delegate an ad request succeeded.
+	func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+		print("interstitialDidReceiveAd")
+	}
+	
+	/// Tells the delegate an ad request failed.
+	func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
+		print("interstitial:didFailToReceiveAdWithError: \(error.localizedDescription)")
+	}
+	
+	/// Tells the delegate that an interstitial will be presented.
+	func interstitialWillPresentScreen(_ ad: GADInterstitial) {
+		print("interstitialWillPresentScreen")
+	}
+	
+	/// Tells the delegate the interstitial is to be animated off the screen.
+	func interstitialWillDismissScreen(_ ad: GADInterstitial) {
+		print("interstitialWillDismissScreen")
+		backBtnAction(self)
+	}
+	
+	/// Tells the delegate the interstitial had been animated off the screen.
+	func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+		print("interstitialDidDismissScreen")
+	}
+	
+	/// Tells the delegate that a user click will open another app
+	/// (such as the App Store), backgrounding the current app.
+	func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
+		print("interstitialWillLeaveApplication")
+	}
+}
+
+

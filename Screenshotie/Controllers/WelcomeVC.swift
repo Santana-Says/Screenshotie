@@ -40,7 +40,7 @@ class WelcomeVC: UIViewController {
 	
 	private func configAdMob() {
 		let request = GADRequest()
-		request.testDevices = GAD().TESTERS
+//		request.testDevices = GAD().TESTERS
 		
 		bannerView.adUnitID = GAD().BANNER_AD_ID
 		bannerView.rootViewController = self
