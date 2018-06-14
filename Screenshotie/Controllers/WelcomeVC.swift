@@ -21,6 +21,7 @@ class WelcomeVC: UIViewController {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		checkPermission()
+		showTutorial()
 		configAdMob()
     }
 	
@@ -48,6 +49,11 @@ class WelcomeVC: UIViewController {
 		bannerView.load(request)
 	}
 	
+	func showTutorial() {
+		if let vc = storyboard?.instantiateViewController(withIdentifier: "TutorialVC") {
+			present(vc, animated: true, completion: nil)
+		}
+	}
 }
 
 extension WelcomeVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

@@ -53,16 +53,19 @@ class EditorVC: UIViewController {
 	
 	var screenshot: UIImage?
 	
+	private let IPHONEX_COLLECTIONVIEW_SIZE: CGFloat = 110
 	private var iphone: iphoneVersion?
 	private var isToolBoxOpen = false
-	private let statusIconImages = ["AirplaneMode", "Signal 4:4", "AT&T", "Wifi 3:3", "DoNotDisturb", "ScreenLock", "Location", "Alarm", "Bluetooth", "Battery 100%", "Charging"]
-	private let statusIconImagesX = ["AirplaneMode", "Signal 4:4", "Wifi 3:3", "Battery 100%", "Charging"]
+//	private let statusIconImages = ["AirplaneMode", "Signal 4:4", "AT&T", "Wifi 3:3", "DoNotDisturb", "ScreenLock", "Location", "Alarm", "Bluetooth", "Battery 100%", "Charging"]
+//	private let statusIconImagesX = ["AirplaneMode", "Signal 4:4", "Wifi 3:3", "Battery 100%", "Charging"]
+	private let statusIconImages = [#imageLiteral(resourceName: "AirplaneMode"), #imageLiteral(resourceName: "Signal 4:4"), #imageLiteral(resourceName: "AT&T"), #imageLiteral(resourceName: "Wifi 3:3"), #imageLiteral(resourceName: "DoNotDisturb"), #imageLiteral(resourceName: "ScreenLock"), #imageLiteral(resourceName: "Location"), #imageLiteral(resourceName: "Alarm"), #imageLiteral(resourceName: "Bluetooth"), #imageLiteral(resourceName: "Battery 100%"), #imageLiteral(resourceName: "Charging")]
+	private let statusIconImagesX = [#imageLiteral(resourceName: "AirplaneMode"), #imageLiteral(resourceName: "Signal 4:4"), #imageLiteral(resourceName: "Wifi 3:3"), #imageLiteral(resourceName: "Battery 100%"), #imageLiteral(resourceName: "Charging")]
 	private let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
 	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
 	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
 	private let batteryIconImages = [#imageLiteral(resourceName: "Battery 10%"), #imageLiteral(resourceName: "Battery 50%"), #imageLiteral(resourceName: "Battery 100%")]
 	private let batteryChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10%"), #imageLiteral(resourceName: "Battery Charging 50%"), #imageLiteral(resourceName: "Battery Charging 100%")]
-	private let batteryChargingIconImagesX = [#imageLiteral(resourceName: "Battery X Charging 10%")]
+	private let batteryChargingIconImagesX = [#imageLiteral(resourceName: "Battery X Charging 10%"), #imageLiteral(resourceName: "Battery X Charging 50%"), #imageLiteral(resourceName: "Battery X Charging 100%")]
 	private var currentSubIconImages = [UIImage]()
 	private var imgViewToEdit = UIImageView()
 	private var airplaneModeImgInUse = UIImageView()
@@ -70,7 +73,7 @@ class EditorVC: UIViewController {
 	private var wifiImgInUse = UIImageView()
 	private var batteryImgInUse = UIImageView()
 	private var batteryChargingImgInUse = [UIImage]()
-	private var statusIconsInUse = [String]()
+	private var statusIconsInUse = [UIImage]()
 	private var interstitial: GADInterstitial!
 	
     override func viewDidLoad() {
@@ -273,17 +276,17 @@ class EditorVC: UIViewController {
 		imgViewToEdit = imgView
 		currentSubIconImages = images
 		
-		let layout = subCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-		layout.minimumInteritemSpacing = CGFloat(100 / (currentSubIconImages.count))
+		let maxAvailableSpacing = 100
+		let evenSubIconLayout = subCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+		evenSubIconLayout.minimumInteritemSpacing = CGFloat(maxAvailableSpacing / (currentSubIconImages.count))
 		
-		subCollectionView.collectionViewLayout = layout
+		subCollectionView.collectionViewLayout = evenSubIconLayout
 		subCollectionView.reloadData()
 		subCollectionView.isHidden = false
 	}
 	
 	private func configAdMob() {
 		let request = GADRequest()
-//		request.testDevices = GAD().TESTERS
 		
 		interstitial = GADInterstitial(adUnitID: GAD().INTERSTITIAL_AD_ID)
 		interstitial.delegate = self
@@ -316,7 +319,7 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconToggleCell", for: indexPath) as! IconToggleCell
 			
 			cell.delegate = self
-			cell.cellConfig(img: UIImage(named: statusIconsInUse[indexPath.row])!)
+			cell.cellConfig(img: statusIconsInUse[indexPath.row])
 			cell.iconBtn.tag = indexPath.row
 			
 			cell.layer.cornerRadius = cell.frame.width / 2
@@ -344,16 +347,16 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 //MARK: - IconToggleCellDelegate
 
 extension EditorVC: IconToggleCellDelegate {
-	fileprivate func cancelAirplaneMode() {
+	private func cancelAirplaneMode() {
 		airplaneModeImgInUse.isHidden = true
 		signalImgInUse.isHidden = false
 		carrierImg.isHidden = false
 		wifiImgInUse.isHidden = false
 	}
 	
-	func iconBtnAction(sender: UIImageView) {
+	func iconBtnAction(image: UIImage) {
 		
-		switch sender.image {
+		switch image {
 		case #imageLiteral(resourceName: "AirplaneMode"):
 			toggleIcon(imgView: airplaneModeImgInUse)
 		case #imageLiteral(resourceName: "Signal 4:4"):

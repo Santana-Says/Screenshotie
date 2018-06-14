@@ -25,4 +25,3 @@ struct GAD {
 	] as [Any]
 }
 
-let IPHONEX_COLLECTIONVIEW_SIZE: CGFloat = 110
