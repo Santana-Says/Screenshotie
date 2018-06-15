@@ -21,8 +21,12 @@ class WelcomeVC: UIViewController {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		checkPermission()
-		showTutorial()
 		configAdMob()
+		
+		if !launchedBefore {
+			showTutorial()
+			UserDefaults.standard.set(true, forKey: "launchedBefore")
+		}
     }
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

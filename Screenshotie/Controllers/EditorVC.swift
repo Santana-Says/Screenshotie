@@ -63,15 +63,6 @@ class EditorVC: UIViewController {
 		case Bluetooth
 		case Battery = "Battery 100%"
 		case Charging
-//		case getImage(named: String)
-//
-//		var image: UIImage {
-//			switch self {
-//			case .getImage(let imgName):
-//				guard let img = UIImage(named: imgName) else { return UIImage() }
-//				return img
-//			}
-//		}
 	}
 	
 	var screenshot: UIImage?
@@ -79,8 +70,6 @@ class EditorVC: UIViewController {
 	private let IPHONEX_COLLECTIONVIEW_SIZE: CGFloat = 110
 	private var iphone: iphoneVersion?
 	private var isToolBoxOpen = false
-//	private let statusIconImages = ["AirplaneMode", "Signal 4:4", "AT&T", "Wifi 3:3", "DoNotDisturb", "ScreenLock", "Location", "Alarm", "Bluetooth", "Battery 100%", "Charging"]
-//	private let statusIconImagesX = ["AirplaneMode", "Signal 4:4", "Wifi 3:3", "Battery 100%", "Charging"]
 	private let statusIconImages: [iconImages] = [.AirplaneMode, .Signal, .Carrier, .Wifi, .DoNotDisturb, .ScreenLock, .Location, .Alarm, .Bluetooth, .Battery, .Charging]
 	private let statusIconImagesX: [iconImages] = [.AirplaneMode, .Signal, .Wifi, .Battery, .Charging]
 	private let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
