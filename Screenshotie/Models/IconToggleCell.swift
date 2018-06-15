@@ -9,23 +9,23 @@
 import UIKit
 
 protocol IconToggleCellDelegate: class {
-	func iconBtnAction(image: UIImage)
+	func iconBtnAction(image: String)
 }
 
 class IconToggleCell: UICollectionViewCell {
     
 	@IBOutlet weak var iconImgView: UIImageView!
 	@IBOutlet weak var iconBtn: UIButton!
-//	private var image = UIImage()
+	private var imgString = ""
 	
 	weak var delegate: IconToggleCellDelegate?
 	
 	@IBAction func toggleIconAction(_ sender: UIButton) {
-		delegate?.iconBtnAction(image: iconImgView.image!)
+		delegate?.iconBtnAction(image: imgString)
 	}
 	
-	func cellConfig(img: UIImage) {
-		iconImgView.image = img
-//		image = img
+	func cellConfig(img: String) {
+		iconImgView.image = UIImage(named: img)
+		imgString = img
 	}
 }

@@ -51,6 +51,29 @@ class EditorVC: UIViewController {
 		func tag() -> Int { return self == .iphoneX ? 1 : 0 }
 	}
 	
+	private enum iconImages: String {
+		case AirplaneMode
+		case Signal = "Signal 4:4"
+		case Carrier = "AT&T"
+		case Wifi = "Wifi 3:3"
+		case DoNotDisturb
+		case ScreenLock
+		case Location
+		case Alarm
+		case Bluetooth
+		case Battery = "Battery 100%"
+		case Charging
+//		case getImage(named: String)
+//
+//		var image: UIImage {
+//			switch self {
+//			case .getImage(let imgName):
+//				guard let img = UIImage(named: imgName) else { return UIImage() }
+//				return img
+//			}
+//		}
+	}
+	
 	var screenshot: UIImage?
 	
 	private let IPHONEX_COLLECTIONVIEW_SIZE: CGFloat = 110
@@ -58,8 +81,8 @@ class EditorVC: UIViewController {
 	private var isToolBoxOpen = false
 //	private let statusIconImages = ["AirplaneMode", "Signal 4:4", "AT&T", "Wifi 3:3", "DoNotDisturb", "ScreenLock", "Location", "Alarm", "Bluetooth", "Battery 100%", "Charging"]
 //	private let statusIconImagesX = ["AirplaneMode", "Signal 4:4", "Wifi 3:3", "Battery 100%", "Charging"]
-	private let statusIconImages = [#imageLiteral(resourceName: "AirplaneMode"), #imageLiteral(resourceName: "Signal 4:4"), #imageLiteral(resourceName: "AT&T"), #imageLiteral(resourceName: "Wifi 3:3"), #imageLiteral(resourceName: "DoNotDisturb"), #imageLiteral(resourceName: "ScreenLock"), #imageLiteral(resourceName: "Location"), #imageLiteral(resourceName: "Alarm"), #imageLiteral(resourceName: "Bluetooth"), #imageLiteral(resourceName: "Battery 100%"), #imageLiteral(resourceName: "Charging")]
-	private let statusIconImagesX = [#imageLiteral(resourceName: "AirplaneMode"), #imageLiteral(resourceName: "Signal 4:4"), #imageLiteral(resourceName: "Wifi 3:3"), #imageLiteral(resourceName: "Battery 100%"), #imageLiteral(resourceName: "Charging")]
+	private let statusIconImages: [iconImages] = [.AirplaneMode, .Signal, .Carrier, .Wifi, .DoNotDisturb, .ScreenLock, .Location, .Alarm, .Bluetooth, .Battery, .Charging]
+	private let statusIconImagesX: [iconImages] = [.AirplaneMode, .Signal, .Wifi, .Battery, .Charging]
 	private let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
 	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
 	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
@@ -68,12 +91,12 @@ class EditorVC: UIViewController {
 	private let batteryChargingIconImagesX = [#imageLiteral(resourceName: "Battery X Charging 10%"), #imageLiteral(resourceName: "Battery X Charging 50%"), #imageLiteral(resourceName: "Battery X Charging 100%")]
 	private var currentSubIconImages = [UIImage]()
 	private var imgViewToEdit = UIImageView()
-	private var airplaneModeImgInUse = UIImageView()
-	private var signalImgInUse = UIImageView()
-	private var wifiImgInUse = UIImageView()
-	private var batteryImgInUse = UIImageView()
-	private var batteryChargingImgInUse = [UIImage]()
-	private var statusIconsInUse = [UIImage]()
+	private var airplaneModeImgviewInUse = UIImageView()
+	private var signalImgviewInUse = UIImageView()
+	private var wifiImgviewInUse = UIImageView()
+	private var batteryImgviewInUse = UIImageView()
+	private var batteryChargingImgviewInUse = [UIImage]()
+	private var statusIconsInUse = [iconImages]()
 	private var interstitial: GADInterstitial!
 	
     override func viewDidLoad() {
@@ -157,25 +180,25 @@ class EditorVC: UIViewController {
 			statusIconsInUse = statusIconImagesX
 			statusBarView.isHidden = true
 			collectionViewHeight.constant = IPHONEX_COLLECTIONVIEW_SIZE
-			batteryChargingImgInUse = batteryChargingIconImagesX
+			batteryChargingImgviewInUse = batteryChargingIconImagesX
 		} else {
 			statusIconsInUse = statusIconImages
 			iPhoneXstatusBarView.isHidden = true
-			batteryChargingImgInUse = batteryChargingIconImages
+			batteryChargingImgviewInUse = batteryChargingIconImages
 		}
 	}
 	
 	private func imgViewFromCollection() {
 		guard let iphone = iphone else { return }
 		
-		airplaneModeImgInUse = airplaneModeImg.filter{$0.tag == iphone.tag()}.first!
-		signalImgInUse = signalImg.filter{$0.tag == iphone.tag()}.first!
-		wifiImgInUse = wifiImg.filter{$0.tag == iphone.tag()}.first!
-		batteryImgInUse = batteryImg.filter{$0.tag == iphone.tag()}.first!
+		airplaneModeImgviewInUse = airplaneModeImg.filter{$0.tag == iphone.tag()}.first!
+		signalImgviewInUse = signalImg.filter{$0.tag == iphone.tag()}.first!
+		wifiImgviewInUse = wifiImg.filter{$0.tag == iphone.tag()}.first!
+		batteryImgviewInUse = batteryImg.filter{$0.tag == iphone.tag()}.first!
 	}
 	
 	private func hideNonEssentialIcons() {
-		airplaneModeImgInUse.isHidden = true
+		airplaneModeImgviewInUse.isHidden = true
 		doNotDisturbImg.isHidden = true
 		screenLockImg.isHidden = true
 		locationImg.isHidden = true
@@ -239,20 +262,20 @@ class EditorVC: UIViewController {
 		
 		if imgView.isHidden {
 			imgView.isHidden = false
-			if imgView == airplaneModeImgInUse {
-				signalImgInUse.isHidden = true
+			if imgView == airplaneModeImgviewInUse {
+				signalImgviewInUse.isHidden = true
 				if iphone.isIPhoneX() {
-					wifiImgInUse.isHidden = true
+					wifiImgviewInUse.isHidden = true
 				} else {
 					carrierImg.isHidden = true
 				}
 			}
 		} else {
 			imgView.isHidden = true
-			if imgView == airplaneModeImgInUse {
-				signalImgInUse.isHidden = false
+			if imgView == airplaneModeImgviewInUse {
+				signalImgviewInUse.isHidden = false
 				if iphone.isIPhoneX() {
-					wifiImgInUse.isHidden = false
+					wifiImgviewInUse.isHidden = false
 				} else {
 					carrierImg.isHidden = false
 				}
@@ -319,7 +342,7 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconToggleCell", for: indexPath) as! IconToggleCell
 			
 			cell.delegate = self
-			cell.cellConfig(img: statusIconsInUse[indexPath.row])
+			cell.cellConfig(img: statusIconsInUse[indexPath.row].rawValue)
 			cell.iconBtn.tag = indexPath.row
 			
 			cell.layer.cornerRadius = cell.frame.width / 2
@@ -348,26 +371,26 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 
 extension EditorVC: IconToggleCellDelegate {
 	private func cancelAirplaneMode() {
-		airplaneModeImgInUse.isHidden = true
-		signalImgInUse.isHidden = false
+		airplaneModeImgviewInUse.isHidden = true
+		signalImgviewInUse.isHidden = false
 		carrierImg.isHidden = false
-		wifiImgInUse.isHidden = false
+		wifiImgviewInUse.isHidden = false
 	}
 	
-	func iconBtnAction(image: UIImage) {
+	func iconBtnAction(image: String) {
 		
-		switch image {
+		switch UIImage(named: image) {
 		case #imageLiteral(resourceName: "AirplaneMode"):
-			toggleIcon(imgView: airplaneModeImgInUse)
+			toggleIcon(imgView: airplaneModeImgviewInUse)
 		case #imageLiteral(resourceName: "Signal 4:4"):
 			cancelAirplaneMode()
-			showSubCollectionView(imgView: signalImgInUse, images: signalIconImages)
+			showSubCollectionView(imgView: signalImgviewInUse, images: signalIconImages)
 		case #imageLiteral(resourceName: "AT&T"):
 			cancelAirplaneMode()
 			showSubCollectionView(imgView: carrierImg, images: carrierIconImages)
 		case #imageLiteral(resourceName: "Wifi 3:3"):
 			cancelAirplaneMode()
-			showSubCollectionView(imgView: wifiImgInUse, images: wifiIconImages)
+			showSubCollectionView(imgView: wifiImgviewInUse, images: wifiIconImages)
 		case #imageLiteral(resourceName: "DoNotDisturb"):
 			toggleIcon(imgView: doNotDisturbImg)
 		case #imageLiteral(resourceName: "ScreenLock"):
@@ -382,7 +405,7 @@ extension EditorVC: IconToggleCellDelegate {
 			toggleIcon(imgView: chargingImg)
 			fallthrough
 		case #imageLiteral(resourceName: "Battery 100%"):
-			showSubCollectionView(imgView: batteryImgInUse, images: chargingImg.isHidden ? batteryIconImages : batteryChargingImgInUse)
+			showSubCollectionView(imgView: batteryImgviewInUse, images: chargingImg.isHidden ? batteryIconImages : batteryChargingImgviewInUse)
 		default:
 			print("Empty icon toggled")
 		}
