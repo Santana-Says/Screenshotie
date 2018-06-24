@@ -23,8 +23,16 @@ class SubIconCell: UICollectionViewCell {
 		delegate?.subIconBtnAction(sender: sender)
 	}
 	
-	func cellConfig(img: UIImage) {
-		subIconImg.image = img
+	func cellConfig(img: UIImage?, carrier title: String?) {
+		//reset cell
+		subIconImg.image = nil
+		subIconBtn.setTitle("", for: .normal)
+		
+		if let img = img {
+			subIconImg.image = img
+		} else if let title = title {
+			subIconBtn.setTitle(title, for: .normal)
+		}
 	}
 
 }

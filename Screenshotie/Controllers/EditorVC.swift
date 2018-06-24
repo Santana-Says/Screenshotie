@@ -18,7 +18,7 @@ class EditorVC: UIViewController {
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet var airplaneModeImg: [UIImageView]!
 	@IBOutlet var signalImg: [UIImageView]!
-	@IBOutlet weak var carrierImg: UIImageView!
+	@IBOutlet weak var carrierLbl: UILabel!
 	@IBOutlet var wifiImg: [UIImageView]!
 	@IBOutlet weak var timeLbl: UILabel!
 	@IBOutlet weak var timeLblX: UILabel!
@@ -72,6 +72,7 @@ class EditorVC: UIViewController {
 	private var isToolBoxOpen = false
 	private let statusIconImages: [iconImages] = [.AirplaneMode, .Signal, .Carrier, .Wifi, .DoNotDisturb, .ScreenLock, .Location, .Alarm, .Bluetooth, .Battery, .Charging]
 	private let statusIconImagesX: [iconImages] = [.AirplaneMode, .Signal, .Wifi, .Battery, .Charging]
+	private let serviceProviders = ["AT&T", "MetroPCS", "Sprint", "T-Mobile", "Verizon"]
 	private let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
 	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
 	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
@@ -87,6 +88,7 @@ class EditorVC: UIViewController {
 	private var batteryChargingImgviewInUse = [UIImage]()
 	private var statusIconsInUse = [iconImages]()
 	private var interstitial: GADInterstitial!
+	private var isCarrierBtnSelected = false
 	
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -248,6 +250,8 @@ class EditorVC: UIViewController {
 	
 	private func toggleIcon(imgView: UIImageView) {
 		guard let iphone = iphone else { return }
+		subCollectionView.isHidden = true
+		isCarrierBtnSelected = false
 		
 		if imgView.isHidden {
 			imgView.isHidden = false
@@ -256,7 +260,7 @@ class EditorVC: UIViewController {
 				if iphone.isIPhoneX() {
 					wifiImgviewInUse.isHidden = true
 				} else {
-					carrierImg.isHidden = true
+					carrierLbl.isHidden = true
 				}
 			}
 		} else {
@@ -266,7 +270,7 @@ class EditorVC: UIViewController {
 				if iphone.isIPhoneX() {
 					wifiImgviewInUse.isHidden = false
 				} else {
-					carrierImg.isHidden = false
+					carrierLbl.isHidden = false
 				}
 			}
 		}
@@ -284,13 +288,18 @@ class EditorVC: UIViewController {
 		}
 	}
 	
-	private func showSubCollectionView(imgView: UIImageView, images: [UIImage]) {
-		imgViewToEdit = imgView
-		currentSubIconImages = images
+	private func showSubCollectionView(imgView: UIImageView?, images: [UIImage]?) {
 		
 		let maxAvailableSpacing = 100
 		let evenSubIconLayout = subCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-		evenSubIconLayout.minimumInteritemSpacing = CGFloat(maxAvailableSpacing / (currentSubIconImages.count))
+		
+		if let imgView = imgView, let images = images {
+			imgViewToEdit = imgView
+			currentSubIconImages = images
+			evenSubIconLayout.minimumInteritemSpacing = CGFloat(maxAvailableSpacing / (currentSubIconImages.count))
+		} else if isCarrierBtnSelected {
+			evenSubIconLayout.minimumInteritemSpacing = CGFloat(maxAvailableSpacing / (serviceProviders.count))
+		}
 		
 		subCollectionView.collectionViewLayout = evenSubIconLayout
 		subCollectionView.reloadData()
@@ -321,7 +330,7 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 		if collectionView == self.collectionView {
 			return statusIconsInUse.count
 		} else if collectionView == subCollectionView {
-			return currentSubIconImages.count
+			return isCarrierBtnSelected ? serviceProviders.count : currentSubIconImages.count
 		}
 		return 0
 	}
@@ -334,6 +343,7 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 			cell.cellConfig(img: statusIconsInUse[indexPath.row].rawValue)
 			cell.iconBtn.tag = indexPath.row
 			
+
 			cell.layer.cornerRadius = cell.frame.width / 2
 			cell.layer.masksToBounds = true
 			
@@ -341,10 +351,16 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 		} else if collectionView == subCollectionView {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SubIconCell", for: indexPath) as! SubIconCell
 			cell.delegate = self
-			cell.cellConfig(img: currentSubIconImages[indexPath.row])
-			cell.subIconBtn.tag = indexPath.row
 			
-			cell.layer.cornerRadius = cell.frame.width / 2
+			if isCarrierBtnSelected {
+				cell.cellConfig(img: nil, carrier: serviceProviders[indexPath.row])
+			} else {
+				cell.cellConfig(img: currentSubIconImages[indexPath.row], carrier: nil)
+			}
+			
+			cell.subIconBtn.tag = indexPath.row
+
+			cell.layer.cornerRadius = cell.frame.height / 2
 			cell.layer.masksToBounds = true
 			
 			return cell
@@ -362,8 +378,10 @@ extension EditorVC: IconToggleCellDelegate {
 	private func cancelAirplaneMode() {
 		airplaneModeImgviewInUse.isHidden = true
 		signalImgviewInUse.isHidden = false
-		carrierImg.isHidden = false
+		carrierLbl.isHidden = false
 		wifiImgviewInUse.isHidden = false
+		subCollectionView.isHidden = true
+		isCarrierBtnSelected = false
 	}
 	
 	func iconBtnAction(image: String) {
@@ -376,7 +394,8 @@ extension EditorVC: IconToggleCellDelegate {
 			showSubCollectionView(imgView: signalImgviewInUse, images: signalIconImages)
 		case #imageLiteral(resourceName: "AT&T"):
 			cancelAirplaneMode()
-			showSubCollectionView(imgView: carrierImg, images: carrierIconImages)
+			isCarrierBtnSelected = true
+			showSubCollectionView(imgView: nil, images: nil)
 		case #imageLiteral(resourceName: "Wifi 3:3"):
 			cancelAirplaneMode()
 			showSubCollectionView(imgView: wifiImgviewInUse, images: wifiIconImages)
@@ -406,7 +425,13 @@ extension EditorVC: IconToggleCellDelegate {
 extension EditorVC: SubIconCellDelegate {
 	func subIconBtnAction(sender: UIButton) {
 		subCollectionView.isHidden = true
-		imgViewToEdit.image = currentSubIconImages[sender.tag]
+		
+		if isCarrierBtnSelected {
+			carrierLbl.text = serviceProviders[sender.tag]
+			isCarrierBtnSelected = false
+		} else {
+			imgViewToEdit.image = currentSubIconImages[sender.tag]
+		}
 	}
 }
 
