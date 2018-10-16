@@ -46,8 +46,8 @@ class PhotoLibraryHandler: NSObject {
 	func addAlertForSettings() {
 		let alertController = UIAlertController(title: "Open Settings", message: nil, preferredStyle: .alert)
 		let settingsAction = UIAlertAction(title: "Settings", style: .destructive) { (_) in
-			guard let settingsURL = NSURL(string: UIApplicationOpenSettingsURLString) else { return }
-			UIApplication.shared.open(settingsURL as URL, options: [:], completionHandler: nil)
+			guard let settingsURL = NSURL(string: UIApplication.openSettingsURLString) else { return }
+			UIApplication.shared.open(settingsURL as URL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
 		}
 		let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
 		
@@ -75,12 +75,30 @@ extension PhotoLibraryHandler: UIImagePickerControllerDelegate, UINavigationCont
 		currentVC?.dismiss(animated: true, completion: nil)
 	}
 	
-	@objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-		if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+	@objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+		if let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
 			imageSelected = image
 		} else {
 			print("Something went wrong")
 		}
 		currentVC?.dismiss(animated: true, completion: nil)
 	}
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

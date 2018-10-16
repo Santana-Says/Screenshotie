@@ -37,8 +37,6 @@ class EditorVC: UIViewController {
 	
 	@IBOutlet weak var ToolBoxBtnView: UIView!
 	@IBOutlet weak var toolsView: UIView!
-	@IBOutlet weak var backBtn: UIButton!
-	@IBOutlet weak var shareBtn: UIButton!
 	
 	private enum iphoneVersion: CGFloat {
 		//based off of root view height
@@ -53,9 +51,9 @@ class EditorVC: UIViewController {
 	
 	private enum iconImages: String {
 		case AirplaneMode
-		case Signal = "Signal 4:4"
+		case Signal = "Signal 4"
 		case Carrier = "AT&T"
-		case Wifi = "Wifi 3:3"
+		case Wifi = "Wifi 3"
 		case DoNotDisturb
 		case ScreenLock
 		case Location
@@ -72,13 +70,6 @@ class EditorVC: UIViewController {
 	private var isToolBoxOpen = false
 	private let statusIconImages: [iconImages] = [.AirplaneMode, .Signal, .Carrier, .Wifi, .DoNotDisturb, .ScreenLock, .Location, .Alarm, .Bluetooth, .Battery, .Charging]
 	private let statusIconImagesX: [iconImages] = [.AirplaneMode, .Signal, .Wifi, .Battery, .Charging]
-	private let serviceProviders = ["AT&T", "MetroPCS", "Sprint", "T-Mobile", "Verizon"]
-	private let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
-	private let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
-	private let wifiIconImages = [#imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
-	private let batteryIconImages = [#imageLiteral(resourceName: "Battery 10%"), #imageLiteral(resourceName: "Battery 50%"), #imageLiteral(resourceName: "Battery 100%")]
-	private let batteryChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10%"), #imageLiteral(resourceName: "Battery Charging 50%"), #imageLiteral(resourceName: "Battery Charging 100%")]
-	private let batteryChargingIconImagesX = [#imageLiteral(resourceName: "Battery X Charging 10%"), #imageLiteral(resourceName: "Battery X Charging 50%"), #imageLiteral(resourceName: "Battery X Charging 100%")]
 	private var currentSubIconImages = [UIImage]()
 	private var imgViewToEdit = UIImageView()
 	private var airplaneModeImgviewInUse = UIImageView()
@@ -102,8 +93,6 @@ class EditorVC: UIViewController {
 		imgViewFromCollection()
 		hideNonEssentialIcons()
 		setTime()
-		roundCorners()
-		shadowEffect()
 		collectionViewConfig()
     }
 	
@@ -128,7 +117,7 @@ class EditorVC: UIViewController {
 		captureScreenshot()
 		if let image = screenshot {
 			let shareMenuVC = UIActivityViewController(activityItems: [image], applicationActivities: [])
-			shareMenuVC.completionWithItemsHandler = {(activityType: UIActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+			shareMenuVC.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
 				if completed {
 					if self.interstitial.isReady {
 						self.interstitial.present(fromRootViewController: self)
@@ -171,11 +160,11 @@ class EditorVC: UIViewController {
 			statusIconsInUse = statusIconImagesX
 			statusBarView.isHidden = true
 			collectionViewHeight.constant = IPHONEX_COLLECTIONVIEW_SIZE
-			batteryChargingImgviewInUse = batteryChargingIconImagesX
+			batteryChargingImgviewInUse = StatusBarImages().batteryChargingIconImagesX
 		} else {
 			statusIconsInUse = statusIconImages
 			iPhoneXstatusBarView.isHidden = true
-			batteryChargingImgviewInUse = batteryChargingIconImages
+			batteryChargingImgviewInUse = ToolBoxImages().batteryChargingIconImages
 		}
 	}
 	
@@ -229,25 +218,6 @@ class EditorVC: UIViewController {
 		UIGraphicsEndImageContext()
 	}
 	
-	private func roundCorners() {
-		toolsView.layer.cornerRadius = 10
-		backBtn.layer.cornerRadius = toolsView.layer.cornerRadius
-		shareBtn.layer.cornerRadius = toolsView.layer.cornerRadius
-		ToolBoxBtnView.layer.cornerRadius = ToolBoxBtnView.frame.width / 2
-	}
-	
-	private func shadowEffect() {
-		ToolBoxBtnView.layer.shadowColor = UIColor.black.cgColor
-		ToolBoxBtnView.layer.shadowOpacity = 0.5
-		ToolBoxBtnView.layer.shadowOffset = CGSize.zero
-		ToolBoxBtnView.layer.shadowRadius = 5
-		
-		toolsView.layer.shadowColor = UIColor.black.cgColor
-		toolsView.layer.shadowOpacity = 0.5
-		toolsView.layer.shadowOffset = CGSize.zero
-		toolsView.layer.shadowRadius = 10
-	}
-	
 	private func toggleIcon(imgView: UIImageView) {
 		guard let iphone = iphone else { return }
 		subCollectionView.isHidden = true
@@ -289,7 +259,6 @@ class EditorVC: UIViewController {
 	}
 	
 	private func showSubCollectionView(imgView: UIImageView?, images: [UIImage]?) {
-		
 		let maxAvailableSpacing = 100
 		let evenSubIconLayout = subCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
 		
@@ -298,7 +267,7 @@ class EditorVC: UIViewController {
 			currentSubIconImages = images
 			evenSubIconLayout.minimumInteritemSpacing = CGFloat(maxAvailableSpacing / (currentSubIconImages.count))
 		} else if isCarrierBtnSelected {
-			evenSubIconLayout.minimumInteritemSpacing = CGFloat(maxAvailableSpacing / (serviceProviders.count))
+			evenSubIconLayout.minimumInteritemSpacing = CGFloat(maxAvailableSpacing / (StatusBarImages().serviceProviders.count))
 		}
 		
 		subCollectionView.collectionViewLayout = evenSubIconLayout
@@ -330,7 +299,7 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 		if collectionView == self.collectionView {
 			return statusIconsInUse.count
 		} else if collectionView == subCollectionView {
-			return isCarrierBtnSelected ? serviceProviders.count : currentSubIconImages.count
+			return isCarrierBtnSelected ? StatusBarImages().serviceProviders.count : currentSubIconImages.count
 		}
 		return 0
 	}
@@ -353,7 +322,7 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 			cell.delegate = self
 			
 			if isCarrierBtnSelected {
-				cell.cellConfig(img: nil, carrier: serviceProviders[indexPath.row])
+				cell.cellConfig(img: nil, carrier: StatusBarImages().serviceProviders[indexPath.row])
 			} else {
 				cell.cellConfig(img: currentSubIconImages[indexPath.row], carrier: nil)
 			}
@@ -391,14 +360,14 @@ extension EditorVC: IconToggleCellDelegate {
 			toggleIcon(imgView: airplaneModeImgviewInUse)
 		case #imageLiteral(resourceName: "Signal 4:4"):
 			cancelAirplaneMode()
-			showSubCollectionView(imgView: signalImgviewInUse, images: signalIconImages)
+			showSubCollectionView(imgView: signalImgviewInUse, images: ToolBoxImages().signalIconImages)
 		case #imageLiteral(resourceName: "AT&T"):
 			cancelAirplaneMode()
 			isCarrierBtnSelected = true
 			showSubCollectionView(imgView: nil, images: nil)
 		case #imageLiteral(resourceName: "Wifi 3:3"):
 			cancelAirplaneMode()
-			showSubCollectionView(imgView: wifiImgviewInUse, images: wifiIconImages)
+			showSubCollectionView(imgView: wifiImgviewInUse, images: ToolBoxImages().wifiIconImages)
 		case #imageLiteral(resourceName: "DoNotDisturb"):
 			toggleIcon(imgView: doNotDisturbImg)
 		case #imageLiteral(resourceName: "ScreenLock"):
@@ -413,7 +382,7 @@ extension EditorVC: IconToggleCellDelegate {
 			toggleIcon(imgView: chargingImg)
 			fallthrough
 		case #imageLiteral(resourceName: "Battery 100%"):
-			showSubCollectionView(imgView: batteryImgviewInUse, images: chargingImg.isHidden ? batteryIconImages : batteryChargingImgviewInUse)
+			showSubCollectionView(imgView: batteryImgviewInUse, images: chargingImg.isHidden ? ToolBoxImages().batteryIconImages : batteryChargingImgviewInUse)
 		default:
 			print("Empty icon toggled")
 		}
@@ -427,7 +396,7 @@ extension EditorVC: SubIconCellDelegate {
 		subCollectionView.isHidden = true
 		
 		if isCarrierBtnSelected {
-			carrierLbl.text = serviceProviders[sender.tag]
+			carrierLbl.text = StatusBarImages().serviceProviders[sender.tag]
 			isCarrierBtnSelected = false
 		} else {
 			imgViewToEdit.image = currentSubIconImages[sender.tag]

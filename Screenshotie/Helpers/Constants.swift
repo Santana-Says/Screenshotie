@@ -25,3 +25,19 @@ struct GAD {
 	] as [Any]
 }
 
+struct ToolBoxImages {
+	let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
+	let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
+	let wifiIconImages = [#imageLiteral(resourceName: "Wifi 1:3"), #imageLiteral(resourceName: "Wifi 2:3"), #imageLiteral(resourceName: "Wifi 3:3")]
+	let batteryIconImages = [#imageLiteral(resourceName: "Battery 10%"), #imageLiteral(resourceName: "Battery 50%"), #imageLiteral(resourceName: "Battery 100%")]
+	let batteryChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10%"), #imageLiteral(resourceName: "Battery Charging 50%"), #imageLiteral(resourceName: "Battery Charging 100%")]
+}
+
+struct StatusBarImages {
+	let signalIconImages = [#imageLiteral(resourceName: "Wifi 0"), #imageLiteral(resourceName: "Wifi 1"), #imageLiteral(resourceName: "Wifi 2"), #imageLiteral(resourceName: "Wifi 3")]
+	let serviceProviders = ["AT&T", "MetroPCS", "Sprint", "T-Mobile", "Verizon"]
+	let wifiIconImages = [#imageLiteral(resourceName: "Signal 0"), #imageLiteral(resourceName: "Signal 1"), #imageLiteral(resourceName: "Signal 2"), #imageLiteral(resourceName: "Signal 3"),#imageLiteral(resourceName: "Signal 4")]
+	let batteryIconImages = [#imageLiteral(resourceName: "Battery 10"), #imageLiteral(resourceName: "Battery 50"), #imageLiteral(resourceName: "Battery 100")]
+	let batteryChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10"), #imageLiteral(resourceName: "Battery Charging 50"), #imageLiteral(resourceName: "Battery Charging 100")]
+	let batteryChargingIconImagesX = [#imageLiteral(resourceName: "Battery X Charging 10%"), #imageLiteral(resourceName: "Battery X Charging 50%"), #imageLiteral(resourceName: "Battery X Charging 100%")]
+}

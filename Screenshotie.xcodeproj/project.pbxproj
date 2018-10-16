@@ -21,6 +21,7 @@
 		B55B2D1920B3E7C0001285CF /* SubIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55B2D1820B3E7C0001285CF /* SubIconCell.swift */; };
 		B5781D6F209F78AC002FCFF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */; };
 		B5781D71209FDD27002FCFF6 /* IconToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D70209FDD27002FCFF6 /* IconToggleCell.swift */; };
+		B5A00EEF216EDE65005C3B3C /* EditorVCExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A00EEE216EDE65005C3B3C /* EditorVCExt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		B55B2D1820B3E7C0001285CF /* SubIconCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubIconCell.swift; sourceTree = "<group>"; };
 		B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B5781D70209FDD27002FCFF6 /* IconToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconToggleCell.swift; sourceTree = "<group>"; };
+		B5A00EEE216EDE65005C3B3C /* EditorVCExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorVCExt.swift; sourceTree = "<group>"; };
 		BF6EDE80D41F78DA40FB49F5 /* Pods-Screenshotie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Screenshotie.release.xcconfig"; path = "Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +123,7 @@
 		B542003D20901D1A004F39FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B5A00EEE216EDE65005C3B3C /* EditorVCExt.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 				TargetAttributes = {
 					B54200262090171C004F39FD = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -282,6 +286,7 @@
 				B542004020901D59004F39FD /* EditorVC.swift in Sources */,
 				B542002B2090171C004F39FD /* AppDelegate.swift in Sources */,
 				B542004220901D6B004F39FD /* WelcomeVC.swift in Sources */,
+				B5A00EEF216EDE65005C3B3C /* EditorVCExt.swift in Sources */,
 				B55B2D1920B3E7C0001285CF /* SubIconCell.swift in Sources */,
 				B520C80720B7B38D004183DF /* Constants.swift in Sources */,
 			);
@@ -441,7 +446,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -464,7 +469,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

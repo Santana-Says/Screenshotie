@@ -93,8 +93,11 @@ extension WelcomeVC: UIImagePickerControllerDelegate, UINavigationControllerDele
 		dismiss(animated: true, completion: nil)
 	}
 	
-	@objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-		if let photo = info[UIImagePickerControllerOriginalImage] as? UIImage {
+	@objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+// Local variable inserted by Swift 4.2 migrator.
+let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+
+		if let photo = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
 			screenshot = photo
 			performSegue(withIdentifier: "WelcomeVCtoBarEditorVC", sender: self)
 		} else {
@@ -136,4 +139,14 @@ extension WelcomeVC: GADBannerViewDelegate {
 	func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
 		print("adViewWillLeaveApplication")
 	}
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }
