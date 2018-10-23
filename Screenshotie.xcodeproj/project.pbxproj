@@ -22,6 +22,7 @@
 		B5781D6F209F78AC002FCFF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */; };
 		B5781D71209FDD27002FCFF6 /* IconToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5781D70209FDD27002FCFF6 /* IconToggleCell.swift */; };
 		B5A00EEF216EDE65005C3B3C /* EditorVCExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A00EEE216EDE65005C3B3C /* EditorVCExt.swift */; };
+		B5DCE31E217B9DF90024DB2E /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE31D217B9DF90024DB2E /* GradientView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		B5781D6E209F78AC002FCFF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B5781D70209FDD27002FCFF6 /* IconToggleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconToggleCell.swift; sourceTree = "<group>"; };
 		B5A00EEE216EDE65005C3B3C /* EditorVCExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorVCExt.swift; sourceTree = "<group>"; };
+		B5DCE31D217B9DF90024DB2E /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		BF6EDE80D41F78DA40FB49F5 /* Pods-Screenshotie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Screenshotie.release.xcconfig"; path = "Pods/Target Support Files/Pods-Screenshotie/Pods-Screenshotie.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				B5A00EEE216EDE65005C3B3C /* EditorVCExt.swift */,
+				B5DCE31D217B9DF90024DB2E /* GradientView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 			files = (
 				B531DD1920D20DAF00780FBF /* TutorialVC.swift in Sources */,
 				B531DD1B20D222AB00780FBF /* TutorialCell.swift in Sources */,
+				B5DCE31E217B9DF90024DB2E /* GradientView.swift in Sources */,
 				B5781D71209FDD27002FCFF6 /* IconToggleCell.swift in Sources */,
 				B54200472095392F004F39FD /* PhotoLibraryHandler.swift in Sources */,
 				B542004020901D59004F39FD /* EditorVC.swift in Sources */,

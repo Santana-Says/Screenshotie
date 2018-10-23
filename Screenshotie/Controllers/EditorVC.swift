@@ -33,43 +33,18 @@ class EditorVC: UIViewController {
 	@IBOutlet weak var batteryLbl: UILabel!
 	@IBOutlet var batteryImg: [UIImageView]!
 	@IBOutlet weak var chargingImg: UIImageView!
-	@IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 	
-	@IBOutlet weak var ToolBoxBtnView: UIView!
 	@IBOutlet weak var toolsView: UIView!
-	
-	private enum iphoneVersion: CGFloat {
-		//based off of root view height
-		case iphoneX = 812
-		case iphonePlus = 736
-		case iphone678 = 667
-		case iphoneSE = 568
-		
-		func isIPhoneX() -> Bool { return self == .iphoneX ? true : false }
-		func tag() -> Int { return self == .iphoneX ? 1 : 0 }
-	}
-	
-	private enum iconImages: String {
-		case AirplaneMode
-		case Signal = "Signal 4"
-		case Carrier = "AT&T"
-		case Wifi = "Wifi 3"
-		case DoNotDisturb
-		case ScreenLock
-		case Location
-		case Alarm
-		case Bluetooth
-		case Battery = "Battery 100%"
-		case Charging
-	}
+	@IBOutlet weak var backShareStack: UIStackView!
+	@IBOutlet weak var backShareStackBtmAnchor: NSLayoutConstraint!
+	@IBOutlet weak var toolboxBtn: UIButton!
 	
 	var screenshot: UIImage?
 	
-	private let IPHONEX_COLLECTIONVIEW_SIZE: CGFloat = 110
 	private var iphone: iphoneVersion?
 	private var isToolBoxOpen = false
-	private let statusIconImages: [iconImages] = [.AirplaneMode, .Signal, .Carrier, .Wifi, .DoNotDisturb, .ScreenLock, .Location, .Alarm, .Bluetooth, .Battery, .Charging]
-	private let statusIconImagesX: [iconImages] = [.AirplaneMode, .Signal, .Wifi, .Battery, .Charging]
+	private let statusIconImages: [iconImages] = [.AirplaneModeIcon, .Signal, .Carrier, .Wifi, .DoNotDisturbIcon, .ScreenLockIcon, .LocationIcon, .AlarmIcon, .BluetoothIcon, .Battery, .ChargingIcon]
+	private let statusIconImagesX: [iconImages] = [.AirplaneModeIcon, .Signal, .Wifi, .Battery, .ChargingIcon]
 	private var currentSubIconImages = [UIImage]()
 	private var imgViewToEdit = UIImageView()
 	private var airplaneModeImgviewInUse = UIImageView()
@@ -86,6 +61,8 @@ class EditorVC: UIViewController {
 
 		imageView.image = screenshot
 		toolsView.alpha = 0
+		backShareStackBtmAnchor.constant = backShareStack.frame.height / 2
+		timePicker.setValue(UIColor.white, forKeyPath: "textColor")
 		
 		detectIphoneVersion()
 		configAdMob()
@@ -104,6 +81,7 @@ class EditorVC: UIViewController {
 	
 	@IBAction func toolBoxBtnAction(_ sender: Any) {
 		toggleToolbox()
+		print(collectionView.frame.height)
 	}
 	
 	@IBAction func backBtnAction(_ sender: Any) {
@@ -112,7 +90,7 @@ class EditorVC: UIViewController {
 	
 	@IBAction func shareBtnAction(_ sender: Any) {
 		toggleToolbox()
-		ToolBoxBtnView.isHidden = true
+		toolboxBtn.isHidden = true
 		
 		captureScreenshot()
 		if let image = screenshot {
@@ -129,7 +107,7 @@ class EditorVC: UIViewController {
 			}
 			present(shareMenuVC, animated: true)
 		}
-		ToolBoxBtnView.isHidden = false
+		toolboxBtn.isHidden = false
 	}
 	
 	@IBAction func timePickerChanged(_ sender: UIDatePicker) {
@@ -139,14 +117,15 @@ class EditorVC: UIViewController {
 	//MARK: - Helper Functions
 	
 	private func detectIphoneVersion() {
-		switch view.frame.height {
-		case iphoneVersion.iphoneX.rawValue:
+		let phoneHeight = view.frame.height
+		switch phoneHeight {
+		case _ where phoneHeight >= iphoneVersion.iphoneX.rawValue:
 			iphone = .iphoneX
 		case iphoneVersion.iphonePlus.rawValue:
 			iphone = .iphonePlus
 		case iphoneVersion.iphone678.rawValue:
 			iphone = .iphone678
-		case iphoneVersion.iphoneSE.rawValue:
+		case _ where phoneHeight <= iphoneVersion.iphoneSE.rawValue:
 			iphone = .iphoneSE
 		default:
 			iphone = nil
@@ -159,15 +138,16 @@ class EditorVC: UIViewController {
 		if iphone.isIPhoneX() {
 			statusIconsInUse = statusIconImagesX
 			statusBarView.isHidden = true
-			collectionViewHeight.constant = IPHONEX_COLLECTIONVIEW_SIZE
 			batteryChargingImgviewInUse = StatusBarImages().batteryChargingIconImagesX
 		} else {
 			statusIconsInUse = statusIconImages
 			iPhoneXstatusBarView.isHidden = true
 			batteryChargingImgviewInUse = ToolBoxImages().batteryChargingIconImages
 		}
+		backShareStack.frame.origin.y = toolsView.frame.maxY - (backShareStack.frame.height / 2)
 	}
 	
+	//WHATS THIS DO?
 	private func imgViewFromCollection() {
 		guard let iphone = iphone else { return }
 		
@@ -286,13 +266,39 @@ class EditorVC: UIViewController {
 
 //MARK: - CollectionView Conforming
 
-extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
+extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	
 	func collectionViewConfig() {
 		collectionView.delegate = self
 		subCollectionView.delegate = self
 		collectionView.dataSource = self
 		subCollectionView.dataSource = self
+	}
+
+	private func getPortionOfView(divideBy portion: CGFloat) -> CGFloat {
+		return toolsView.frame.size.width / portion
+	}
+	
+	private func setCollectionViewHeight(collectionView: UICollectionView, cellHeight: CGFloat) {
+		let rowSpace: CGFloat = 15
+		let cellsPerRow: CGFloat = 3
+		let surroundingInsets: CGFloat = 20
+		let numberOfRows: CGFloat = ceil(CGFloat(statusIconsInUse.count) / cellsPerRow)
+		let sumOfSpaces = (rowSpace * (numberOfRows - 1)) + (surroundingInsets * 2)
+		
+		collectionView.frame.size.height = (cellHeight * numberOfRows) + sumOfSpaces
+		view.layoutIfNeeded()
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+		let topBtmInset: CGFloat = 20
+		let ninthOfView = getPortionOfView(divideBy: 10)
+		return UIEdgeInsets(top: topBtmInset, left: ninthOfView, bottom: topBtmInset, right: ninthOfView)
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+		let seventhOfView = getPortionOfView(divideBy: 7)
+		return seventhOfView
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -304,6 +310,36 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 		return 0
 	}
 	
+	#warning("Figure out dynamic collectionView height")
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		
+		var cellSpace: CGFloat = 0
+		var cellsPerRow: CGFloat = 0
+		let sideInset: CGFloat = getPortionOfView(divideBy: 10)
+		var sumOfSpaces: CGFloat = 0
+		var cellWidth: CGFloat = 0
+		
+		if collectionView == self.collectionView {
+			cellSpace = getPortionOfView(divideBy: 7)
+			cellsPerRow = 3
+			sumOfSpaces = (cellSpace * cellsPerRow) + (sideInset * 2)
+			cellWidth = (collectionView.layer.frame.width - sumOfSpaces) / cellsPerRow
+			setCollectionViewHeight(collectionView: collectionView, cellHeight: cellWidth)
+			
+			return CGSize(width: cellWidth, height: cellWidth)
+		} else if collectionView == subCollectionView {
+			cellSpace = 5
+			cellsPerRow = CGFloat(currentSubIconImages.count)
+			sumOfSpaces = cellSpace * cellsPerRow
+			cellWidth = (collectionView.layer.frame.width - sumOfSpaces) / cellsPerRow
+			setCollectionViewHeight(collectionView: collectionView, cellHeight: cellWidth)
+			
+			return CGSize(width: cellWidth, height: cellWidth)
+		}
+		
+		return CGSize()
+	}
+	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		if collectionView == self.collectionView {
 			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IconToggleCell", for: indexPath) as! IconToggleCell
@@ -311,10 +347,6 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 			cell.delegate = self
 			cell.cellConfig(img: statusIconsInUse[indexPath.row].rawValue)
 			cell.iconBtn.tag = indexPath.row
-			
-
-			cell.layer.cornerRadius = cell.frame.width / 2
-			cell.layer.masksToBounds = true
 			
 			return cell
 		} else if collectionView == subCollectionView {
@@ -328,17 +360,12 @@ extension EditorVC: UICollectionViewDataSource, UICollectionViewDelegate {
 			}
 			
 			cell.subIconBtn.tag = indexPath.row
-
-			cell.layer.cornerRadius = cell.frame.height / 2
-			cell.layer.masksToBounds = true
 			
 			return cell
 		}
 		
 		return UICollectionViewCell()
 	}
-	
-	
 }
 
 //MARK: - IconToggleCellDelegate

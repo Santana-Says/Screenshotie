@@ -25,6 +25,8 @@ struct GAD {
 	] as [Any]
 }
 
+let IPHONEX_COLLECTIONVIEW_SIZE: CGFloat = 110
+
 struct ToolBoxImages {
 	let signalIconImages = [#imageLiteral(resourceName: "Signal 1:4"), #imageLiteral(resourceName: "Signal 2:4"), #imageLiteral(resourceName: "Signal 3:4"), #imageLiteral(resourceName: "Signal 4:4")]
 	let carrierIconImages = [#imageLiteral(resourceName: "AT&T")]
@@ -40,4 +42,29 @@ struct StatusBarImages {
 	let batteryIconImages = [#imageLiteral(resourceName: "Battery 10"), #imageLiteral(resourceName: "Battery 50"), #imageLiteral(resourceName: "Battery 100")]
 	let batteryChargingIconImages = [#imageLiteral(resourceName: "Battery Charging 10"), #imageLiteral(resourceName: "Battery Charging 50"), #imageLiteral(resourceName: "Battery Charging 100")]
 	let batteryChargingIconImagesX = [#imageLiteral(resourceName: "Battery X Charging 10%"), #imageLiteral(resourceName: "Battery X Charging 50%"), #imageLiteral(resourceName: "Battery X Charging 100%")]
+}
+
+enum iphoneVersion: CGFloat {
+	//based off of root view height
+	case iphoneX = 812
+	case iphonePlus = 736
+	case iphone678 = 667
+	case iphoneSE = 568
+	
+	func isIPhoneX() -> Bool { return self == .iphoneX ? true : false }
+	func tag() -> Int { return self == .iphoneX ? 1 : 0 }
+}
+
+enum iconImages: String {
+	case AirplaneModeIcon
+	case Signal = "Signal 4:4"
+	case Carrier = "AT&TIcon"
+	case Wifi = "Wifi 3:3"
+	case DoNotDisturbIcon
+	case ScreenLockIcon
+	case LocationIcon
+	case AlarmIcon
+	case BluetoothIcon
+	case Battery = "Battery 50%"
+	case ChargingIcon
 }

@@ -99,7 +99,7 @@ let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
 
 		if let photo = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
 			screenshot = photo
-			performSegue(withIdentifier: "WelcomeVCtoBarEditorVC", sender: self)
+			performSegue(withIdentifier: "EditorVCSegue", sender: self)
 		} else {
 			print("Something went wrong")
 		}
